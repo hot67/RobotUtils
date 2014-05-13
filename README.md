@@ -12,4 +12,4 @@ A short list of improvements:
     * All indices are wrapped up in nice little enums
   * More to come...
   
-  When the library reaches a more complete state, the exact list of added functionality will be put here as well as instructions on how to use this library on the wiki page.
+When the library reaches a more complete state, the exact list of added functionality will be put here as well as instructions on how to use this library on the wiki page.
