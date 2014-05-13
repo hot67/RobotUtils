@@ -1,2 +1,9 @@
 # We want absolutely no build files in this repository.
 PPC603gnu/
+
+# Qt Creator's weird files.
+*.config
+*.user
+*.files
+*.includes
+*.creator
