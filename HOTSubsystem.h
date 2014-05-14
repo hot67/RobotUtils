@@ -1,0 +1,4 @@
+#ifndef HOTSUBSYSTEM_H
+#define HOTSUBSYSTEM_H
+
+#endif // HOTSUBSYSTEM_H
