@@ -190,9 +190,9 @@ float AdvancedJoystick::applyDeadbandQuad (float input)
     if (fabs(input) < m_deadband)
     {
         if (input > 0)
-            return pow((input/m_deadband),2.0);
+            return pow((input/m_deadband),2.0)*m_deadband;
         else if (input < 0)
-            return -pow((input/m_deadband),2.0);
+            return (-pow((input/m_deadband),2.0))*m_deadband;
         else
             return 0.0;
     }
@@ -205,7 +205,7 @@ float AdvancedJoystick::applyDeadbandCube (float input)
     if (fabs(input) < m_deadband)
     {
         if (input != 0)
-            return pow((input/m_deadband),3.0);
+            return pow((input/m_deadband),3.0)*m_deadband;
         else
             return 0.0;
     }
@@ -218,7 +218,7 @@ float AdvancedJoystick::applyDeadbandSine (float input)
     if (fabs(input) < m_deadband)
     {
         if (input != 0)
-            return sin(M_PI_2*(input/m_deadband));
+            return sin(M_PI_2*(input/m_deadband))*m_deadband;
         else
             return 0.0;
     }
