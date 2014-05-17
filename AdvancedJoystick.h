@@ -1,4 +1,5 @@
 #include "WPILib.h"
+#include "HOTSubsystem.h"
 #include <cmath>
 
 /* AdvancedJoystick -- Enhancements for the Joystick class.
@@ -26,7 +27,7 @@
 #define JOYSTICK_TIMEOUT 0.1
 #define JOYSTICK_DEADBAND 0.2
 
-class AdvancedJoystick {
+class AdvancedJoystick : public HotSubsystem {
 public:
 
     // BUTTON AND AXIS ENUMS ----------
@@ -94,18 +95,7 @@ public:
     void SetDeadband (float);
     void SetDeadbandType (deadband_t);
 
-    //UPDATE ---------------------------------------
-    /* Note: This function is only public
-     * because it needs to be accessible to
-     * the object updating the joystick.
-     *
-     * This function updates the internal variables
-     * of the AdvancedJoystick, and does not grab
-     * any new data from the driver station for
-     * uses other than this.
-     *
-     * Use only once per CPU loop.
-     */
+protected:
     void update ();
 
 private:
