@@ -2,67 +2,60 @@
 #define HOTSUBSYSTEM_H
 
 #include "WPILib.h"
+#include "HotThread.h"
 #include <vector>
+#include <string>
 
 
 class HotSubsystem
 {
+	friend class HotSubsystemHandler;
+	
 public:
 	/********** Constructor **********/
-	HotSubsystem(const char* id) { m_id = id; }
+	HotSubsystem(std::string id) { m_id = id; }
 	virtual ~HotSubsystem();
 	
+protected:
 	/********** Constents **********/
 	virtual void Init() {}
 	virtual void Periodic() {}
 	virtual void PrintData() {}
 	
-	/********** Accessor **********/
-	const char* GetID() { return m_id; }
-	
-protected:
-	void Print (const char* id, float value);
-	void Print (const char* id, bool value);
+	/********** Internal Functions **********/
+	void Print (std::string id, float value);
+	void Print (std::string id, bool value);
 	
 private:
-	const char* m_id;
+	std::string m_id;
 };
 
 
-class HotSubsystemHandler
+class HotSubsystemHandler : public HotThread
 {
+	friend class HotSubsystem;
+	
 public:
 	/********** Constructor **********/
 	HotSubsystemHandler();
+	~HotSubsystemHandler();
 	
 	/********** Add New Subsystem to Handler **********/
-	void Add(HotSubsystem subsystem);
-	
-	/********** Thread Control **********/
-	void Enable() { f_enabled = true; }
-	void Disable() { f_enabled = false; }
-	void End() { f_running = false; }
-	
-	/********** Flag Access **********/
-	bool IsRunning() { return f_running; }
-	bool IsEnabled() { return f_enabled; }
-	bool IsPeriodic() { return f_runPeriodic; }
-	bool IsPrintData() { return f_runPrintData; }
+	void Add(HotSubsystem* subsystem);
 	
 	/********** Flag Control **********/
-	void SetRunning (bool on = true) { f_running = on; }
-	void SetEnabled (bool on = true) { f_enabled = on; }
-	
-	
+	void SetPeriodic(bool on) { f_runPeriodic = on; }
+	void SetPrintData(bool on) { f_runPeriodic = on; }
+	bool GetPeriodic() { return f_runPeriodic; }
+	bool GetPrintData() { return f_runPrintData; }
 	
 private:
-	Task* m_task;
-	std::vector<HotSubsystem> m_subsystems;
-	int Run();
+	std::vector<HotSubsystem*> m_subsystems;
+	
+	/********** Main Function **********/
+	void Run();
 	
 	/********** Flags **********/
-	bool f_running;
-	bool f_enabled;
 	bool f_runPeriodic;
 	bool f_runPrintData;
 };

@@ -1,47 +1,61 @@
 #include "HotSubsystem.h"
 
-HotSubsystemHandler::HotSubsystemHandler()
+/*
+ * Hot Subsystem
+ */
+
+/********** Internal Function: Print Float Value **********/
+void HotSubsystem::Print(std::string id, float value)
 {
-	m_task = new Task("HotSubsystemHandler", (FUNCPTR)(Run));
-	m_task->Start();
+	SmartDashboard::PutNumber(m_id + ":" + id, value);
+}
+/********** Internal Function: Printa Boolean Value **********/
+void HotSubsystem::Print(std::string id, bool value)
+{
+	SmartDashboard::PutBoolean(m_id + ":" + id, value);
 }
 
-void HotSubsystemHandler::Add(HotSubsystem subsystem)
+
+/*
+ * Hot Subsystem Handler
+ */
+
+/********** Constructor **********/
+HotSubsystemHandler::HotSubsystemHandler()
+	: HotThread("HotSubsystemHandler")
+{
+	
+}
+
+/********** Deconstructor **********/
+HotSubsystemHandler::~HotSubsystemHandler()
+{
+	/***** Stop Thread *****/
+	Stop();
+	
+	/***** Delete List of Subsystems *****/
+	delete &m_subsystems;
+}
+
+/********** Add New Subsystem **********/
+void HotSubsystemHandler::Add(HotSubsystem* subsystem)
 {
 	m_subsystems.push_back(subsystem);
 }
 
-int HotSubsystemHandler::Run()
+/********** Main Function **********/
+void HotSubsystemHandler::Run()
 {
-	while (f_running)
+	/***** Each Subsystems *****/
+	for (unsigned int i = 0; i < m_subsystems.size(); ++i)
 	{
-		if (f_enabled)
+		if (f_runPeriodic)
 		{
-			/***** Periodic *****/
-			if (f_runPeriodic)
-			{
-				for (unsigned int i = 0; i < m_subsystems.size(); i++)
-				{
-					m_subsystems[i].Periodic();
-				}
-			}
-			
-			/***** Print Data *****/
-			if (f_runPrintData)
-			{
-				for (unsigned int i = 0; i < m_subsystems.size(); i++)
-				{
-					m_subsystems[i].PrintData();
-				}
-			}
-			
-			Wait(0.002);
+			m_subsystems[i]->Periodic();
 		}
-		else
+		if (f_runPeriodic)
 		{
-			Wait(0.05);
+			m_subsystems[i]->PrintData();
 		}
 	}
-	
-	return 0;
 }
