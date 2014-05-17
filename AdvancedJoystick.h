@@ -1,6 +1,7 @@
 #include "WPILib.h"
 #include "HOTSubsystem.h"
 #include <cmath>
+#include <vector>
 
 /* AdvancedJoystick -- Enhancements for the Joystick class.
  *
@@ -90,10 +91,15 @@ public:
     bool GetButtonPress (int);
     float GetRawAxis (int);
 
+    Joystick* GetJoystick() { return m_gamepad; }
+
+    //WARNING! Experimental
+    bool GetButtonPress_new(int);
+
     //CONFIGURATION FUNCTIONS --------
-    void SetPressTimeout (float);
-    void SetDeadband (float);
-    void SetDeadbandType (deadband_t);
+    void SetPressTimeout (float timeout) { m_buttonTimeout = timeout; }
+    void SetDeadband (float dWidth) { m_deadband = dWidth; }
+    void SetDeadbandType (deadband_t dType) { m_deadbandType = dType; }
 
 protected:
     void update ();
@@ -109,12 +115,19 @@ private:
 
     void trackTimer();
 
+    //WARNING - Experimental
+    void trackPresses();
+    bool isPressed (int channel);
+
     // MEMBER OBJECTS --------
     Joystick* m_gamepad;
     Timer* m_timer;
     float m_buttonTimeout;
     float m_deadband;
     deadband_t m_deadbandType;
+
+    // FLAGS -----------------
+    vector<button_t> f_pressedButtons;
 };
 
 #endif //ADVANCEDJOYSTICK_H

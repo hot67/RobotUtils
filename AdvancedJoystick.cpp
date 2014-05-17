@@ -135,6 +135,19 @@ bool AdvancedJoystick::GetButtonPress (int channel) {
         return false;
 }
 
+bool AdvancedJoystick::GetButtonPress_new (int channel)
+{
+    trackPresses();
+
+    if (m_gamepad->GetRawButton(channel) && !isPressed(channel))
+    {
+        f_pressedButtons.push_back(channel);
+        return true;
+    }
+    else
+        return false;
+}
+
 float AdvancedJoystick::GetRawAxis (int channel) {
     if ((channel < 6) && (channel != 3))
         return applyDeadband(m_gamepad->GetRawAxis(channel));
@@ -234,7 +247,33 @@ void AdvancedJoystick::trackTimer () {
 	}
 }
 
+void AdvancedJoystick::trackPresses ()
+{
+    int x;
+
+    for (x=0; x<f_pressedButtons.size(); x++)
+    {
+        if (!GetRawButton(f_pressedButtons[x]))
+            f_pressedButtons.erase(f_pressedButtons.begin()+x);
+    }
+}
+
 void AdvancedJoystick::update ()
 {
     trackTimer();
+    trackPresses();
+}
+
+bool AdvancedJoystick::isPressed (button_t button)
+{
+    bool buttonFlag;
+    buttonFlag = false;
+
+    for (int x = 0; x < f_pressedButtons.size(); x++)
+    {
+        if (f_pressedButtons[x] == button)
+            buttonFlag = true;
+    }
+
+    return buttonFlag;
 }
