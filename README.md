@@ -30,7 +30,7 @@ _Note: Until we finish the library, there will be no official release. If you re
 
 ### Stable
 
-Go to the [Releases page](https://github.com/hot67/RobotUtils/Releases/) and download either the zip or the tar.gz of the latest release. Unpack it into your project's folder, and include "RobotUtils/RobotUtils.h", and you're set!
+Go to the [Releases page](https://github.com/hot67/RobotUtils/releases/) and download either the zip or the tar.gz of the latest release. Unpack it into your project's folder, and include "RobotUtils/RobotUtils.h", and you're set!
 
 ### Unstable
 
