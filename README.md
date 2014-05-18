@@ -26,7 +26,7 @@ This library is unfinished as of yet. This list will be updated as new functiona
   
 ## Get RobotUtils
 
-_Note: Until we finish the library, there will be no official release. If you really, really want the library, follow the directions for Unstable.
+_Note: Until we finish the library, there will be no official release. If you really, really want the library, follow the directions for Unstable._
 
 ### Stable
 
@@ -34,7 +34,7 @@ Go to the [Releases page](https://github.com/hot67/RobotUtils/Releases/) and dow
 
 ### Unstable
 
-_WARNING: This is *NOT* recommended. This method gets you the latest commit to our repository, which may break the library. We cannot guarantee that the unstable version will work. Proceed at your own risk._
+_WARNING: This is **NOT** recommended. This method gets you the latest commit to our repository, which may break the library. We cannot guarantee that the unstable version will work. Proceed at your own risk._
 
 Make sure that you are on the master branch, and click the "Download ZIP" button on the right. Unpack it into your project folder and include "RobotUtils/RobotUtils.h"
 
