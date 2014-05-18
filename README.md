@@ -30,13 +30,13 @@ _Note: Until we finish the library, there will be no official release. If you re
 
 ### Stable
 
-Go to the [Releases page](https://github.com/hot67/RobotUtils/releases/) and download either the zip or the tar.gz of the latest release. Unpack it into your project's folder, and include "RobotUtils/RobotUtils.h", and you're set!
+Go to the [Releases page](https://github.com/hot67/RobotUtils/releases/) and download either the zip or the tar.gz of the latest release. Unpack it into your project's folder and rename the folder it extracted into to "RobotUtils". Include "RobotUtils/RobotUtils.h" in your project's main file (or wherever else you need it), and you're set!
 
 ### Unstable
 
 _WARNING: This is **NOT** recommended. This method gets you the latest commit to our repository, which may break the library. We cannot guarantee that the unstable version will work. Proceed at your own risk._
 
-Make sure that you are on the master branch, and click the "Download ZIP" button on the right. Unpack it into your project folder and include "RobotUtils/RobotUtils.h"
+Make sure that you are on the master branch, and click the "Download ZIP" button on the right. Unpack it into your project folder, rename the extraction folder to "RobotUtils" and include "RobotUtils/RobotUtils.h" in whatever files you need it in.
 
 ## Help us out!
 
