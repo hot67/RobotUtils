@@ -11,7 +11,7 @@
  *
  * Builtin deadband control:
  * - Set the deadband width (SetDeadband)
- * - Turn the deadband into a quadratic, cubic, sinuoid ramp (SetDeadbandType)
+ * - Turn the deadband into a quadratic, cubic, sinusoid ramp (SetDeadbandType)
  *
  * Treat the triggers like buttons in GetRawButton or GetButtonPress.
  *
