@@ -40,9 +40,9 @@ SmartPIDController::SmartPIDController(float p, float i, float d, float f, iType
     m_iT = 0;
 
     if (i_type == kStatic)
-        m_pid = new PIDController (p, i, d, f, source, input, period);
+        m_pid = new PIDController (p, i, d, f, source, output, period);
     else
-        m_pid = new PIDController (p, 0.0, d, f, source, input, period);
+        m_pid = new PIDController (p, 0.0, d, f, source, output, period);
 }
 
 SmartPIDController::SetI(float i)
