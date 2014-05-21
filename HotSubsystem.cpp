@@ -22,9 +22,11 @@ void HotSubsystem::Print(std::string id, bool value)
 
 /********** Constructor **********/
 HotSubsystemHandler::HotSubsystemHandler()
-	: HotThread("HotSubsystemHandler")
+	: HotThread("HotSubsystemHandler") 
 {
-	
+	/***** Set Default Flag *****/
+	f_runUpdate = true;
+	f_runPrintData = true;
 }
 
 /********** Deconstructor **********/
@@ -49,11 +51,11 @@ void HotSubsystemHandler::Run()
 	/***** Each Subsystems *****/
 	for (unsigned int i = 0; i < m_subsystems.size(); ++i)
 	{
-		if (f_runPeriodic)
+		if (f_runUpdate)
 		{
-			m_subsystems[i]->Periodic();
+			m_subsystems[i]->Update();
 		}
-		if (f_runPeriodic)
+		if (f_runUpdate)
 		{
 			m_subsystems[i]->PrintData();
 		}

@@ -4,13 +4,11 @@
 #include "WPILib.h"
 #include "HotThread.h"
 #include <vector>
-#include <string>
+//#include <string>
 
 
 class HotSubsystem
 {
-	friend class HotSubsystemHandler;
-	
 public:
 	/********** Constructor **********/
 	HotSubsystem(std::string id) { m_id = id; }
@@ -18,8 +16,7 @@ public:
 	
 protected:
 	/********** Constents **********/
-	virtual void Init() {}
-	virtual void Periodic() {}
+	virtual void Update() {}
 	virtual void PrintData() {}
 	
 	/********** Internal Functions **********/
@@ -33,8 +30,6 @@ private:
 
 class HotSubsystemHandler : public HotThread
 {
-	friend class HotSubsystem;
-	
 public:
 	/********** Constructor **********/
 	HotSubsystemHandler();
@@ -44,9 +39,9 @@ public:
 	void Add(HotSubsystem* subsystem);
 	
 	/********** Flag Control **********/
-	void SetPeriodic(bool on) { f_runPeriodic = on; }
-	void SetPrintData(bool on) { f_runPeriodic = on; }
-	bool GetPeriodic() { return f_runPeriodic; }
+	void SetUpdate(bool on) { f_runUpdate = on; }
+	void SetPrintData(bool on) { f_runPrintData = on; }
+	bool GetUpdate() { return f_runUpdate; }
 	bool GetPrintData() { return f_runPrintData; }
 	
 private:
@@ -56,7 +51,7 @@ private:
 	void Run();
 	
 	/********** Flags **********/
-	bool f_runPeriodic;
+	bool f_runUpdate;
 	bool f_runPrintData;
 };
 

@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-#include <WPILib.h>
+#include "WPILib.h"
 
 class HotThread
 {
@@ -24,6 +24,9 @@ private:
 	static void TaskStarter(HotThread* thread);
 	
 	/********** Main Function **********/
+	/*
+	 * This function will run in loop
+	 */
 	virtual void Run() = 0;
 	
 	/********** Flags **********/
