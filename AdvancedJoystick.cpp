@@ -1,7 +1,9 @@
 #include "AdvancedJoystick.h"
 
 /**** CONSTRUCTORS ****/
-AdvancedJoystick::AdvancedJoystick (Joystick* gamepad) {
+AdvancedJoystick::AdvancedJoystick (std::string id, Joystick* gamepad)
+	: HotSubsystem(id)
+{
 	m_gamepad = gamepad;
 	m_timer = new Timer;
 
@@ -13,7 +15,9 @@ AdvancedJoystick::AdvancedJoystick (Joystick* gamepad) {
 	m_timer->Reset();
 }
 
-AdvancedJoystick::AdvancedJoystick (Joystick* gamepad, deadband_t deadbandType, float deadband, float timeout) {
+AdvancedJoystick::AdvancedJoystick (std::string id, Joystick* gamepad, deadband_t deadbandType, float deadband, float timeout)
+	: HotSubsystem(id)
+{
     m_gamepad = gamepad;
     m_timer = new Timer;
 
@@ -25,7 +29,9 @@ AdvancedJoystick::AdvancedJoystick (Joystick* gamepad, deadband_t deadbandType, 
     m_timer->Reset();
 }
 
-AdvancedJoystick::AdvancedJoystick (Joystick* gamepad, deadband_t deadbandType) {
+AdvancedJoystick::AdvancedJoystick (std::string id, Joystick* gamepad, deadband_t deadbandType)
+	: HotSubsystem(id)
+{
     m_gamepad = gamepad;
     m_timer = new Timer;
 
@@ -37,7 +43,9 @@ AdvancedJoystick::AdvancedJoystick (Joystick* gamepad, deadband_t deadbandType) 
     m_timer->Reset();
 }
 
-AdvancedJoystick::AdvancedJoystick (Joystick* gamepad, float deadband, float timeout) {
+AdvancedJoystick::AdvancedJoystick (std::string id, Joystick* gamepad, float deadband, float timeout)
+	: HotSubsystem(id)
+{
     m_gamepad = gamepad;
     m_timer = new Timer;
 
@@ -53,7 +61,9 @@ AdvancedJoystick::AdvancedJoystick (Joystick* gamepad, float deadband, float tim
     m_timer->Reset();
 }
 
-AdvancedJoystick::AdvancedJoystick (int gamepad) {
+AdvancedJoystick::AdvancedJoystick (std::string id, int gamepad) 
+	: HotSubsystem(id)
+{
 	m_gamepad = new Joystick (gamepad);
 	m_timer = new Timer;
 
@@ -65,7 +75,9 @@ AdvancedJoystick::AdvancedJoystick (int gamepad) {
 	m_timer->Reset();
 }
 
-AdvancedJoystick::AdvancedJoystick (int gamepad, deadband_t deadbandType, float deadband, float timeout) {
+AdvancedJoystick::AdvancedJoystick (std::string id, int gamepad, deadband_t deadbandType, float deadband, float timeout) 
+	: HotSubsystem(id)
+{
     m_gamepad = new Joystick (gamepad);
     m_timer = new Timer;
 
@@ -77,7 +89,9 @@ AdvancedJoystick::AdvancedJoystick (int gamepad, deadband_t deadbandType, float 
     m_timer->Reset();
 }
 
-AdvancedJoystick::AdvancedJoystick (int gamepad, deadband_t deadbandType) {
+AdvancedJoystick::AdvancedJoystick (std::string id, int gamepad, deadband_t deadbandType) 
+	: HotSubsystem(id)
+{
     m_gamepad = new Joystick (gamepad);
     m_timer = new Timer;
 
@@ -89,7 +103,9 @@ AdvancedJoystick::AdvancedJoystick (int gamepad, deadband_t deadbandType) {
     m_timer->Reset();
 }
 
-AdvancedJoystick::AdvancedJoystick (int gamepad, float deadband, float timeout) {
+AdvancedJoystick::AdvancedJoystick (std::string id, int gamepad, float deadband, float timeout) 
+	: HotSubsystem(id)
+{
     m_gamepad = new Joystick (gamepad);
     m_timer = new Timer;
 
@@ -107,7 +123,7 @@ AdvancedJoystick::AdvancedJoystick (int gamepad, float deadband, float timeout) 
 
 /**** JOYSTICK ACCESS FUNCTIONS ****/
 
-bool AdvancedJoystick::GetRawButton (int channel) {
+bool AdvancedJoystick::GetRawButton (button_t channel) {
     if (channel < 11)
         return m_gamepad->GetRawButton(channel);
     else
@@ -123,7 +139,7 @@ bool AdvancedJoystick::GetRawButton (int channel) {
     }
 }
 
-bool AdvancedJoystick::GetButtonPress (int channel) {
+bool AdvancedJoystick::GetButtonPress (button_t channel) {
     trackTimer();
 
     if (m_gamepad->GetRawButton(channel) && (m_timer->Get() == 0.0))
@@ -134,7 +150,7 @@ bool AdvancedJoystick::GetButtonPress (int channel) {
     else
         return false;
 }
-
+/*
 bool AdvancedJoystick::GetButtonPress_new (int channel)
 {
     trackPresses();
@@ -147,8 +163,8 @@ bool AdvancedJoystick::GetButtonPress_new (int channel)
     else
         return false;
 }
-
-float AdvancedJoystick::GetRawAxis (int channel) {
+*/
+float AdvancedJoystick::GetRawAxis (axis_t channel) {
     if ((channel < 6) && (channel != 3))
         return applyDeadband(m_gamepad->GetRawAxis(channel));
     else if (channel == 3)
@@ -249,9 +265,7 @@ void AdvancedJoystick::trackTimer () {
 
 void AdvancedJoystick::trackPresses ()
 {
-    int x;
-
-    for (x=0; x<f_pressedButtons.size(); x++)
+    for (unsigned int x = 0; x < f_pressedButtons.size(); x++)
     {
         if (!GetRawButton(f_pressedButtons[x]))
             f_pressedButtons.erase(f_pressedButtons.begin()+x);
@@ -269,7 +283,7 @@ bool AdvancedJoystick::isPressed (button_t button)
     bool buttonFlag;
     buttonFlag = false;
 
-    for (int x = 0; x < f_pressedButtons.size(); x++)
+    for (unsigned int x = 0; x < f_pressedButtons.size(); x++)
     {
         if (f_pressedButtons[x] == button)
             buttonFlag = true;
