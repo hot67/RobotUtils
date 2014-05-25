@@ -44,7 +44,7 @@ public:
         kButtonR3 = 10,
         kTriggerL = 11,
         kTriggerR = 12
-    }button_t;
+    } button_t;
 
     typedef enum {
         kNone,
@@ -52,7 +52,7 @@ public:
         kQuad,
         kCube,
         kSine
-    }deadband_t;
+    } deadband_t;
 
     typedef enum {
         kLeftX = 1,
@@ -62,7 +62,7 @@ public:
         kRightY = 5,
         kLeftTrigger = 6,
         kRightTrigger = 7
-    }axis_t;
+    } axis_t;
 
     //CONSTRUCTORS --------------
     /* Default values:
@@ -71,29 +71,29 @@ public:
      * deadband: JOYSTICK_DEADBAND
      * timeout: JOYSTICK_TIMEOUT
      */
-    AdvancedJoystick (Joystick* gamepad);
-    AdvancedJoystick (Joystick* gamepad, deadband_t deadbandType, float deadband, float timeout);
-    AdvancedJoystick (Joystick* gamepad, deadband_t deadbandType);
-    AdvancedJoystick (Joystick* gamepad, float deadband, float timeout);
+    AdvancedJoystick (std::string id, Joystick* gamepad);
+    AdvancedJoystick (std::string id, Joystick* gamepad, deadband_t deadbandType, float deadband, float timeout);
+    AdvancedJoystick (std::string id, Joystick* gamepad, deadband_t deadbandType);
+    AdvancedJoystick (std::string id, Joystick* gamepad, float deadband, float timeout);
 
-    AdvancedJoystick (int channel);
-    AdvancedJoystick (int channel, deadband_t deadbandType, float deadband, float timeout);
-    AdvancedJoystick (int channel, deadband_t deadbandType);
-    AdvancedJoystick (int channel, float deadband, float timeout);
+    AdvancedJoystick (std::string id, int channel);
+    AdvancedJoystick (std::string id, int channel, deadband_t deadbandType, float deadband, float timeout);
+    AdvancedJoystick (std::string id, int channel, deadband_t deadbandType);
+    AdvancedJoystick (std::string id, int channel, float deadband, float timeout);
 
     //JOYSTICK ACCESS FUNCTIONS ---
     /* You can pass the enum values
      * to these functions, they're
      * typecast to ints.
      */
-    bool GetRawButton (int);
-    bool GetButtonPress (int);
-    float GetRawAxis (int);
+    bool GetRawButton (button_t);
+    bool GetButtonPress (button_t);
+    float GetRawAxis (axis_t);
 
     Joystick* GetJoystick() { return m_gamepad; }
 
     //WARNING! Experimental
-    bool GetButtonPress_new(int);
+    // bool GetButtonPress_new(int);
 
     //CONFIGURATION FUNCTIONS --------
     void SetPressTimeout (float timeout) { m_buttonTimeout = timeout; }
@@ -116,7 +116,7 @@ private:
 
     //WARNING - Experimental
     void trackPresses();
-    bool isPressed (int channel);
+    bool isPressed (button_t button);
 
     // MEMBER OBJECTS --------
     Joystick* m_gamepad;

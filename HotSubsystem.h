@@ -14,7 +14,6 @@ public:
 	HotSubsystem(std::string id) { m_id = id; }
 	virtual ~HotSubsystem();
 	
-protected:
 	/********** Constents **********/
 	virtual void Update() {}
 	virtual void PrintData() {}
