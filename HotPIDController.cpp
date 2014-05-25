@@ -18,6 +18,19 @@ HotPIDController::HotPIDController(float p, float i, float d, float f,
 	m_pidSource = source;
 }
 
+/********** PID Control **********/
+void HotPIDController::SetP(float p)
+{
+	PIDController::SetPID(p, PIDController::GetI(), PIDController::GetD());
+}
+void HotPIDController::SetI(float i)
+{
+	PIDController::SetPID(PIDController::GetP(), i, PIDController::GetD());
+}
+void HotPIDController::SetD(float d)
+{
+	PIDController::SetPID(PIDController::GetP(), PIDController::GetI(), d);
+}
 /********** New Dynamic PID **********/
 void HotPIDController::SetDynamicPID(float range, float p, float i, float d)
 {

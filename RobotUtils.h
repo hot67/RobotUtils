@@ -4,6 +4,7 @@
 #include "AdvancedJoystick.h"
 #include "HotThread.h"
 #include "HotSubsystem.h"
-#include "SmartPIDController.h"
+#include "HotPIDController.h"
+#include "HotPIDSubsystem.h"
 
 #endif //ROBOTUTILS_H

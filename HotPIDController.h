@@ -18,6 +18,9 @@ public:
 			float period = 0.05);
 	
 	/********** Config **********/
+	void SetP(float p);
+	void SetI(float i);
+	void SetD(float d);
 	void SetDynamicPID(float range, float p, float i, float d);
 	
 	/********** Dynamic PID Updater **********/

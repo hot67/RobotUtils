@@ -1,7 +1,7 @@
 #include "HotPIDSubsystem.h"
 
 HotPIDSubsystem::HotPIDSubsystem(std::string id, float p, float i, float d)
-	: HotSubsystem("HotPIDSubsystem")
+	: HotSubsystem(id) 
 {
 	m_pid = new HotPIDController(p, i, d, this, this);
 }

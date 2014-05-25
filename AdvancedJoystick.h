@@ -1,5 +1,4 @@
 #include "WPILib.h"
-#include "HOTSubsystem.h"
 #include <cmath>
 #include <vector>
 
@@ -28,7 +27,7 @@
 #define JOYSTICK_TIMEOUT 0.1
 #define JOYSTICK_DEADBAND 0.2
 
-class AdvancedJoystick : public HotSubsystem {
+class AdvancedJoystick {
 public:
 
     // BUTTON AND AXIS ENUMS ----------
