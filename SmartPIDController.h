@@ -2,6 +2,7 @@
 #define SMARTPIDCONTROLLER_H
 
 #include "WPILib.h"
+#include <cmath>
 
 class SmartPIDController
 {
@@ -30,6 +31,8 @@ public:
     float GetD () { return m_pid->GetD(); }
     float GetF () { return m_pid->GetF(); }
 
+    bool GetIType () { return m_iType; }
+
     //Controller functions
     void SetSetpoint (float setpoint) { m_pid->SetSetpoint(setpoint); }
     float GetSetpoint () { return m_pid->GetSetpoint(); }
@@ -49,26 +52,33 @@ public:
     void SetPercentTolerance (float percent) { m_pid->SetPercentTolerance(percent); }
 
     bool OnTarget () { return m_pid->OnTarget(); }
-    bool AtSetpoint ();
+    bool AtSetpoint () { return fabs(GetError()) < m_width; }
 
     //Configuration
-    void SetIThreshold (float iT) { m_iT = iT; }
-    void SetIType (iType nI) { i_type = nI; }
+    void SetIWidth (float iT) { m_iW = iT; }
+    void SetIType (iType nI) { m_iType = nI; }
+
+    void TurnOnDynamicI (bool on, bool zero=true);
 
     void SetContinuous (bool continuous = true) { m_pid->SetContinuous(continuous); }
     void SetInputRange (float minInput, float maxInput) { m_pid->SetInputRange(minInput, maxInput); }
     void SetOutputRange (float minOutput, float maxOutput) { m_pid->SetOutputRange(minOutput, maxOutput); }
+
+    void SetSetpointWidth (float width) { m_width = width; }
 
     //Dynamic I updater
     void update ();
 
     void InitTable (ITable* table) { m_pid->InitTable(table); }
 private:
+    void manageI();
+
     PIDController* m_pid;
 
+    float m_width;
     float m_i;
-    float m_iT;
-    iType i_type;
+    float m_iW;
+    iType m_iType;
 };
 
 #endif // SMARTPIDCONTROLLER_H
