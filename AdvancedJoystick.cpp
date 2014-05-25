@@ -108,6 +108,8 @@ AdvancedJoystick::AdvancedJoystick (int gamepad, float deadband, float timeout) 
 /**** JOYSTICK ACCESS FUNCTIONS ****/
 
 bool AdvancedJoystick::GetRawButton (int channel) {
+    update();
+
     if (channel < 11)
         return m_gamepad->GetRawButton(channel);
     else
@@ -124,7 +126,7 @@ bool AdvancedJoystick::GetRawButton (int channel) {
 }
 
 bool AdvancedJoystick::GetButtonPress (int channel) {
-    trackTimer();
+    update();
 
     if (m_gamepad->GetRawButton(channel) && (m_timer->Get() == 0.0))
     {
@@ -133,11 +135,12 @@ bool AdvancedJoystick::GetButtonPress (int channel) {
     }
     else
         return false;
+
 }
 
 bool AdvancedJoystick::GetButtonPress_new (int channel)
 {
-    trackPresses();
+    update();
 
     if (m_gamepad->GetRawButton(channel) && !isPressed(channel))
     {
@@ -146,9 +149,12 @@ bool AdvancedJoystick::GetButtonPress_new (int channel)
     }
     else
         return false;
+
 }
 
 float AdvancedJoystick::GetRawAxis (int channel) {
+    update();
+
     if ((channel < 6) && (channel != 3))
         return applyDeadband(m_gamepad->GetRawAxis(channel));
     else if (channel == 3)
