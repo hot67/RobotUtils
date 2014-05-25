@@ -11,7 +11,7 @@ AdvancedJoystick::AdvancedJoystick (std::string id, Joystick* gamepad)
     m_deadbandType = kNone;
 
     m_buttonTimeout = JOYSTICK_TIMEOUT;
-	
+
 	m_timer->Reset();
 }
 
@@ -71,7 +71,7 @@ AdvancedJoystick::AdvancedJoystick (std::string id, int gamepad)
     m_deadbandType = kNone;
 
     m_buttonTimeout = JOYSTICK_TIMEOUT;
-	
+
 	m_timer->Reset();
 }
 

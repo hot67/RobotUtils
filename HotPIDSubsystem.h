@@ -14,6 +14,6 @@ public:
 	
 private:
 	HotPIDController* m_pid;
-}
+};
 
 #endif
