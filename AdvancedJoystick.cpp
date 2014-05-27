@@ -2,7 +2,6 @@
 
 /**** CONSTRUCTORS ****/
 AdvancedJoystick::AdvancedJoystick (Joystick* gamepad)
-	: HotSubsystem(id)
 {
 	m_gamepad = gamepad;
 	m_timer = new Timer;
@@ -16,7 +15,6 @@ AdvancedJoystick::AdvancedJoystick (Joystick* gamepad)
 }
 
 AdvancedJoystick::AdvancedJoystick (Joystick* gamepad, deadband_t deadbandType, float deadband, float timeout)
-	: HotSubsystem(id)
 {
     m_gamepad = gamepad;
     m_timer = new Timer;
@@ -30,7 +28,6 @@ AdvancedJoystick::AdvancedJoystick (Joystick* gamepad, deadband_t deadbandType, 
 }
 
 AdvancedJoystick::AdvancedJoystick (Joystick* gamepad, deadband_t deadbandType)
-	: HotSubsystem(id)
 {
     m_gamepad = gamepad;
     m_timer = new Timer;
@@ -44,7 +41,6 @@ AdvancedJoystick::AdvancedJoystick (Joystick* gamepad, deadband_t deadbandType)
 }
 
 AdvancedJoystick::AdvancedJoystick (Joystick* gamepad, float deadband, float timeout)
-	: HotSubsystem(id)
 {
     m_gamepad = gamepad;
     m_timer = new Timer;
@@ -62,7 +58,6 @@ AdvancedJoystick::AdvancedJoystick (Joystick* gamepad, float deadband, float tim
 }
 
 AdvancedJoystick::AdvancedJoystick (int gamepad)
-	: HotSubsystem(id)
 {
 	m_gamepad = new Joystick (gamepad);
 	m_timer = new Timer;
@@ -76,7 +71,6 @@ AdvancedJoystick::AdvancedJoystick (int gamepad)
 }
 
 AdvancedJoystick::AdvancedJoystick (int gamepad, deadband_t deadbandType, float deadband, float timeout)
-	: HotSubsystem(id)
 {
     m_gamepad = new Joystick (gamepad);
     m_timer = new Timer;
@@ -90,7 +84,6 @@ AdvancedJoystick::AdvancedJoystick (int gamepad, deadband_t deadbandType, float 
 }
 
 AdvancedJoystick::AdvancedJoystick (int gamepad, deadband_t deadbandType)
-	: HotSubsystem(id)
 {
     m_gamepad = new Joystick (gamepad);
     m_timer = new Timer;
@@ -104,7 +97,6 @@ AdvancedJoystick::AdvancedJoystick (int gamepad, deadband_t deadbandType)
 }
 
 AdvancedJoystick::AdvancedJoystick (int gamepad, float deadband, float timeout)
-	: HotSubsystem(id)
 {
     m_gamepad = new Joystick (gamepad);
     m_timer = new Timer;
@@ -154,7 +146,7 @@ bool AdvancedJoystick::GetButtonPress (button_t channel) {
 
 }
 
-bool AdvancedJoystick::GetButtonPress_new (int channel)
+bool AdvancedJoystick::GetButtonPress_new (button_t channel)
 {
     update();
 

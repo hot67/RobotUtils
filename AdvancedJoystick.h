@@ -71,15 +71,15 @@ public:
      * deadband: JOYSTICK_DEADBAND
      * timeout: JOYSTICK_TIMEOUT
      */
-    AdvancedJoystick (std::string id, Joystick* gamepad);
-    AdvancedJoystick (std::string id, Joystick* gamepad, deadband_t deadbandType, float deadband, float timeout);
-    AdvancedJoystick (std::string id, Joystick* gamepad, deadband_t deadbandType);
-    AdvancedJoystick (std::string id, Joystick* gamepad, float deadband, float timeout);
+    AdvancedJoystick (Joystick* gamepad);
+    AdvancedJoystick (Joystick* gamepad, deadband_t deadbandType, float deadband, float timeout);
+    AdvancedJoystick (Joystick* gamepad, deadband_t deadbandType);
+    AdvancedJoystick (Joystick* gamepad, float deadband, float timeout);
 
-    AdvancedJoystick (std::string id, int channel);
-    AdvancedJoystick (std::string id, int channel, deadband_t deadbandType, float deadband, float timeout);
-    AdvancedJoystick (std::string id, int channel, deadband_t deadbandType);
-    AdvancedJoystick (std::string id, int channel, float deadband, float timeout);
+    AdvancedJoystick (int channel);
+    AdvancedJoystick (int channel, deadband_t deadbandType, float deadband, float timeout);
+    AdvancedJoystick (int channel, deadband_t deadbandType);
+    AdvancedJoystick (int channel, float deadband, float timeout);
 
     //JOYSTICK ACCESS FUNCTIONS ---
     /* You can pass the enum values
@@ -93,7 +93,7 @@ public:
     Joystick* GetJoystick() { return m_gamepad; }
 
     //WARNING! Experimental
-    // bool GetButtonPress_new(int);
+    bool GetButtonPress_new(button_t);
 
     //CONFIGURATION FUNCTIONS --------
     void SetPressTimeout (float timeout) { m_buttonTimeout = timeout; }
