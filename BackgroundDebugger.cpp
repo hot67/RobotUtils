@@ -1,14 +1,19 @@
 #include "BackgroundDebugger.h"
 
-BackgroundDebugger::BackgroundDebugger(double debugInterval) :
+BackgroundDebugger::BackgroundDebugger(double debugInterval, bool clearContents) :
     HotSubsystem("BackgroundDebugger")
 {
+    Preferences* prefs;
+
+    prefs = Preferences::GetInstance();
+
     m_debugInterval = debugInterval;
     m_manualLog = "manualLog.txt";
-    m_fout = new ofstream (ios::app);
+    m_fout = new ofstream;
 
     f_running = false;
-    m_runNum = 0;
+    f_delContents = clearContents;
+    m_runNum = prefs->GetInt("DebugRun");
     m_runPath = "DisabledLogs";
 
     if (!S_ISDIR(stat(m_runPath.c_str())))
@@ -16,7 +21,7 @@ BackgroundDebugger::BackgroundDebugger(double debugInterval) :
         mkdir(m_runPath.c_str());
         m_runPath += '/';
     }
-    else if (m_delContents)
+    else
     {
         m_runPath += '/';
 
@@ -28,9 +33,15 @@ BackgroundDebugger::BackgroundDebugger(double debugInterval) :
 
         while (curFile = readdir(folder))
         {
-            filepath = m_runPath+curFile->d_name;
-            if (!filepath.compare((string)'.') && !filepath.compare((string)".."))
-                remove(filepath);
+            if (strcmp(curFile->d_name,".") != 0 && strcmp(curFile->d_name,"..") != 0)
+            {
+                filepath = m_runPath+curFile->d_name;
+
+                m_fout->open(filepath.c_str(), ios::app);
+
+                if (m_fout->is_open())
+                    (*m_fout)<<"**REBOOT**"<<endl;
+            }
         }
     }
 }
@@ -76,11 +87,11 @@ void BackgroundDebugger::LogData(string id, double value)
     time_t currentTime;
 
     time(&currentTime);
-    m_fout->open(m_runPath.c_str()+m_manualLog.c_str());
+    m_fout->open(m_runPath.c_str()+m_manualLog.c_str(), ios::app);
 
     if (m_fout->is_open())
     {
-        (*m_fout)<<ctime(currentTime)<<' '<<id<<' '<<value;
+        (*m_fout)<<ctime(currentTime)<<' '<<id<<' '<<value<<endl;
         m_fout->close();
     }
 }
@@ -90,13 +101,19 @@ void BackgroundDebugger::LogData(string id, string value)
     time_t currentTime;
 
     time(&currentTime);
-    m_fout->open(m_runPath.c_str()+m_manualLog.c_str());
+    m_fout->open(m_runPath.c_str()+m_manualLog.c_str(), ios::app);
 
     if (m_fout->is_open())
     {
-        (*m_fout)<<ctime(currentTime)<<' '<<id<<' '<<value;
+        (*m_fout)<<ctime(currentTime)<<' '<<id<<' '<<value<<endl;
         m_fout->close();
     }
+}
+
+void BackgroundDebugger::ResetRunNumber()
+{
+    if (!f_running)
+        m_runNum = 0;
 }
 
 void BackgroundDebugger::StartRun()
@@ -104,12 +121,14 @@ void BackgroundDebugger::StartRun()
     m_runNum++;
     m_runPath = "Run"+m_runNum;
 
+    time(&m_startTime);
+
     if (!S_ISDIR(stat(m_runPath.c_str())))
     {
         mkdir(m_runPath.c_str());
         m_runPath += '/';
     }
-    else if (m_delContents)
+    else if (f_delContents)
     {
         m_runPath += '/';
 
@@ -121,16 +140,93 @@ void BackgroundDebugger::StartRun()
 
         while (curFile = readdir(folder))
         {
-            filepath = m_runPath+curFile->d_name;
-            if (!filepath.compare((string)'.') && !filepath.compare((string)".."))
-                remove(filepath);
+            if (strcmp(curFile->d_name, ".") != 0 && strcmp(curFile->d_name, ".."))
+            {
+                filepath = m_runPath+curFile->d_name;
+                remove(filepath.c_str());
+            }
         }
     }
 
     f_running = true;
 }
 
+void BackgroundDebugger::StopRun()
+{
+    Preferences* prefs;
+
+    prefs = Preferences::GetInstance();
+
+    prefs->PutInt("DebugRun",m_runNum);
+    prefs->Save();
+
+    f_running = false;
+    m_runPath = "DisabledLogs/";
+}
+
 void BackgroundDebugger::Update()
 {
+    if (f_running)
+    {
+        int x;
+        string message;
 
+        message = m_tempMsg;
+
+        if ((difftime(time(NULL),m_lastDebugTime)*1000.0) > m_debugInterval)
+        {
+            //Numbers
+            for (x = 0; x < m_numList.size(); x++)
+            {
+                m_fout->open(m_runPath.c_str()+m_numList[x].id.c_str()+".txt", ios::app);
+
+                if (m_fout->is_open())
+                {
+                    if (message != "")
+                        (*m_fout)<<difftime(time(NULL),m_startTime)<<"s, **"<<message<<"**"<<endl;
+
+                    (*m_fout)<<difftime(time(NULL),m_startTime)<<"s, "<<(*m_numList[x].value)<<endl;
+                    m_fout->close();
+                }
+            }
+
+            //Strings
+            {
+                for (x = 0; x < m_stringList.size(); x++)
+                {
+                    m_fout->open(m_runPath.c_str()+m_stringList[x].id.c_str()+".txt", ios::app);
+
+                    if (m_fout->is_open())
+                    {
+                        if (message != "")
+                            (*m_fout)<<difftime(time(NULL),m_startTime)<<"s, **"<<message<<"**"<<endl;
+
+                        (*m_fout)<<difftime(time(NULL),m_startTime)<<"s, "<<(*m_stringList[x].value)<<endl;
+                        m_fout->close();
+                    }
+                }
+            }
+
+            //Functions
+            {
+                for (x = 0; x < m_funcList.size(); x++)
+                {
+                    m_fout->open(m_runPath.c_str()+m_funcList[x].id.c_str()+".txt", ios::app);
+
+                    if (m_fout->is_open())
+                    {
+                        if (message != "")
+                            (*m_fout)<<difftime(time(NULL),m_startTime)<<"s, **"<<message<<"**"<<endl;
+
+                        (*m_fout)<<difftime(time(NULL),m_startTime)<<"s, "<<(m_funcList[x].function())<<endl;
+                        m_fout->close();
+                    }
+                }
+            }
+
+            time(&m_lastDebugTime);
+            if (m_tempMsg.compare(message) == 0)
+                m_tempMsg = "";
+        }
+    }
 }
