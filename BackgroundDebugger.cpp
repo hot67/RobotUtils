@@ -179,6 +179,7 @@ void BackgroundDebugger::StartRun()
 void BackgroundDebugger::StopRun()
 {
     Preferences* prefs;
+
     m_csv->close();
 
     prefs = Preferences::GetInstance();
