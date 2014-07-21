@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <string>
+#include <cstdio>
 using namespace std;
 
 class CSVWriter
@@ -31,6 +32,7 @@ public:
    void newRow();
 
    void setColumns(int cols) { m_cols = cols; }
+   int getColumns () { return m_cols; }
    
 private:
    ofstream m_fout;

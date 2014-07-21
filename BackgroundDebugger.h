@@ -3,6 +3,7 @@
 
 #include "HotSubsystem.h"
 #include "WPILib.h"
+#include "csvwriter.h"
 #include <fstream>
 #include <vector>
 #include <ctime>
@@ -11,7 +12,8 @@
 #include <dirent.h>
 #include <cstdio>
 
-#define DEBUG_INTERVAL 500
+#define DEBUG_INTERVAL 500 //ms
+#define AUTON_CASE_DURATION 2.5 //s
 
 using namespace std;
 
@@ -81,6 +83,58 @@ public:
      */
     void StopRun();
 
+    // AUTON DEBUGGER ---------------------------------------------------------------------------
+
+    /* BackgroundDebugger provides functionality to watch the robot's autonomous mode. Should
+     * a predetermined amount of time pass without the case variable changing,
+     * BackgroundDebugger will automatically dump all of the data that it is
+     * configured to handle to a file.
+     *
+     * BackgroundDebugger will watch the variable until any of the following happens:
+     *
+     *   -The robot leaves autonomous mode.
+     *   -The case variable reaches the configured max case (set using setMaxAutonCase).
+     *   -The case variable becomes negative.
+     *
+     * BackgroundDebugger will only watch the variable if the debugger is enabled (StartRun).
+     */
+
+    /**
+     * @brief SetAutonCase: Sets the pointer to the auton case variable
+     *        so BackgroundDebugger can watch it.
+     * @param auton: A pointer to the auton case variable
+     */
+    void SetAutonCase (int* auton) { m_autonCase = auton; }
+
+    /**
+     * @brief SetMaxAutonCase: Sets the highest case that the case variable
+     *        will reach. This is used to make BackgroundDebugger stop watching
+     *        the case variable.
+     * @param max: The maximum case value.
+     */
+    void SetMaxAutonCase (int max) { m_endCase = max; }
+
+    /**
+     * @brief SetCaseDuration: Sets the maximum duration between case changes.
+     *        Set this to just over the execution time of your longest case.
+     * @param interval: The maximum case duration.
+     */
+    void SetCaseDuration (double duration=AUTON_CASE_DURATION) { m_caseDuration = duration; }
+
+    /**
+     * @brief EnableWatch: Temporarily enable/disable watching the auton case.
+     * @param watch: Whether to watch the auton case.
+     */
+    void EnableWatch (bool watch) { f_watchAuton = watch; }
+
+    /**
+     * @brief GetAutonState: Returns whether BackgroundDebugger has detected a fault in
+     *        autonomous.
+     * @return : True if autonomous ran without a detected fault, false if a fault was detected.
+     */
+    bool GetAutonState () { return f_autonState; }
+
+
     // CONFIGURATION FUNCTIONS ------------------------------------------------------------------
 
     /**
@@ -114,14 +168,26 @@ public:
 protected:
     void Update();
 private:
+    //Auton debugger
+    void watchAuton();
+    void dumpAuton();
+
+    int* m_autonCase;
+    int m_lastCase;
+    int m_endCase;
+    double m_caseDuration;
+    bool f_autonState;
+    bool f_watchAuton;
+    time_t m_caseTime;
+
     //User-defined debugging data
     vector<NumData> m_numList;
     vector<StringData> m_stringList;
     vector<FuncData> m_funcList;
     string m_tempMsg;
     string m_manualLog;
-
     ofstream* m_fout;
+    CSVWriter* m_csv;
     double m_debugInterval;
     time_t m_lastDebugTime;
     time_t m_startTime;
