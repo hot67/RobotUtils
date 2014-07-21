@@ -28,15 +28,17 @@ bool CSVWriter::writeCell(string str)
        return false;
    else
    {
-       if (str.find(' '))
-           m_fout<<'\"'<<str<<"\", ";
+       if (str.find(' ') != string::npos)
+           m_fout<<'\"'<<str<<'\"';
        else
-           m_fout<<str<<", ";
+           m_fout<<str;
 
        m_curCol++;
 
        if (m_curCol == m_cols && m_cols != 0)
            newRow();
+       else
+           m_fout<<", ";
 
        return true;
    }
@@ -44,9 +46,9 @@ bool CSVWriter::writeCell(string str)
 
 bool CSVWriter::writeCell(float data)
 {
-    string buf;
+    char buf [100];
 
-    sprintf(buf.data(), "%f", data);
+    sprintf(buf, "%f", data);
 
     return writeCell(buf);
 }
