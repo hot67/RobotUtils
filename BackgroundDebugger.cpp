@@ -233,6 +233,8 @@ void BackgroundDebugger::Update()
 
             watchAuton();
         }
+        else if (m_caseTime != NULL)
+            m_caseTime = NULL;
     }
 }
 
