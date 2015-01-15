@@ -118,7 +118,7 @@ AdvancedJoystick::AdvancedJoystick (int gamepad, float deadband, float timeout)
 bool AdvancedJoystick::GetRawButton (button_t channel) {
     update();
 
-    if (channel < 11)
+    if (channel < 10)
         return m_gamepad->GetRawButton(channel);
     else
     {
@@ -136,7 +136,7 @@ bool AdvancedJoystick::GetRawButton (button_t channel) {
 bool AdvancedJoystick::GetButtonPress (button_t channel) {
     update();
 
-    if (m_gamepad->GetRawButton(channel) && (m_timer->Get() == 0.0))
+    if (GetRawButton(channel) && (m_timer->Get() == 0.0))
     {
         m_timer->Start();
         return true;
@@ -163,23 +163,23 @@ bool AdvancedJoystick::GetButtonPress_new (button_t channel)
 float AdvancedJoystick::GetRawAxis (axis_t channel) {
     update();
 
-    if ((channel < 6) && (channel != 3))
+    if ((channel < 5) && (channel != 2))
         return applyDeadband(m_gamepad->GetRawAxis(channel));
-    else if (channel == 3)
-        return m_gamepad->GetRawAxis(3);
+    else if (channel == 2)
+        return m_gamepad->GetRawAxis(2);
     else
     {
         if (channel == AdvancedJoystick::kLeftTrigger)
         {
-            if (m_gamepad->GetRawAxis(3) < 0)
-                m_gamepad->GetRawAxis(3);
+            if (m_gamepad->GetRawAxis(2) < 0)
+                m_gamepad->GetRawAxis(2);
             else
                 return 0.0;
         }
         else
         {
-            if (m_gamepad->GetRawAxis(3) > 0)
-                return fabs(m_gamepad->GetRawAxis(3));
+            if (m_gamepad->GetRawAxis(2) > 0)
+                return fabs(m_gamepad->GetRawAxis(2));
             else
                 return 0.0;
         }
