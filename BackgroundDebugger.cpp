@@ -24,7 +24,7 @@ BackgroundDebugger::BackgroundDebugger(double debugInterval, bool clearContents)
     f_running = false;
     f_delContents = clearContents;
     m_runNum = prefs->GetInt("DebugRun");
-    m_runPath = "DisabledLogs";
+    m_runPath = "/home/lvuser/DisabledLogs";
 
     if (!S_ISDIR(stat(m_runPath.c_str())))
     {
@@ -129,7 +129,7 @@ void BackgroundDebugger::ResetRunNumber()
 void BackgroundDebugger::StartRun()
 {
     m_runNum++;
-    m_runPath = "Run"+m_runNum;
+    m_runPath = "/home/lvuser/Run"+m_runNum;
 
     time(&m_startTime);
 
@@ -188,7 +188,7 @@ void BackgroundDebugger::StopRun()
     prefs->Save();
 
     f_running = false;
-    m_runPath = "DisabledLogs/";
+    m_runPath = "/home/lvuser/DisabledLogs/";
 }
 
 void BackgroundDebugger::Update()
