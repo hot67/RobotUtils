@@ -10,7 +10,7 @@
  *
  * Builtin deadband control:
  * - Set the deadband width (SetDeadband)
- * - Turn the deadband into a quadratic, cubic, sinusoid ramp (SetDeadbandType)
+ * - Add a quadratic or cubic ramp off of the deadband (SetDeadbandType)
  *
  * Treat the triggers like buttons in GetRawButton or GetButtonPress.
  *
@@ -51,7 +51,6 @@ public:
         kFlat,
         kQuad,
         kCube,
-        kSine
     } deadband_t;
 
     typedef enum {
@@ -109,7 +108,6 @@ private:
     float applyDeadbandFlat (float input);
     float applyDeadbandQuad (float input);
     float applyDeadbandCube (float input);
-    float applyDeadbandSine (float input);
 
     void trackTimer();
 
