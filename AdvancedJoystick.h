@@ -123,7 +123,7 @@ private:
     deadband_t m_deadbandType;
 
     // FLAGS -----------------
-    vector<button_t> f_pressedButtons;
+    std::vector<button_t> f_pressedButtons;
 };
 
 #endif //ADVANCEDJOYSTICK_H
