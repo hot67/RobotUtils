@@ -224,10 +224,12 @@ void AdvancedJoystick::trackTimer () {
 
 void AdvancedJoystick::trackPresses ()
 {
-    for (unsigned int x = 0; x < f_pressedButtons.size(); x++)
+    std::vector<button_t>::iterator it;
+
+    for (it = f_pressedButtons.begin(); it != f_pressedButtons.end(); ++it)
     {
-        if (!GetRawButton(f_pressedButtons[x]))
-            f_pressedButtons.erase(f_pressedButtons.begin()+x);
+        if (!GetRawButton(*it))
+            f_pressedButtons.erase(it);
     }
 }
 
@@ -240,11 +242,13 @@ void AdvancedJoystick::update ()
 bool AdvancedJoystick::isPressed (button_t button)
 {
     bool buttonFlag;
+    std::vector<button_t>::iterator it;
+
     buttonFlag = false;
 
-    for (unsigned int x = 0; x < f_pressedButtons.size(); x++)
+    for (it = f_pressedButtons.begin(); it != f_pressedButtons.end(); ++it)
     {
-        if (f_pressedButtons[x] == button)
+        if (*it == button)
             buttonFlag = true;
     }
 
