@@ -11,6 +11,8 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <cstdio>
+#include <sstream>
+#include <string>
 
 #define DEBUG_INTERVAL 500 //ms
 #define AUTON_CASE_DURATION 2.5 //s
@@ -29,8 +31,8 @@ typedef struct {
 
 typedef struct {
     string id;
-    FUNCPTR function;
-} FuncData;
+    PIDSource* source;
+} SensorData;
 
 class BackgroundDebugger: public HotSubsystem
 {
@@ -47,14 +49,14 @@ public:
 
     // DEBUG FUNCTIONS ---------------------------------------------------------------------------
     /**
-     * @brief AddValue: Adds a number/string/function to the debugger's watch list.
-     * @param id: The identifier for the number/string/function. This is used to determine
-     *            the filename to write to.
-     * @param value: The pointer to the value to debug.
+     * @brief AddValue: Adds a number/string/sensor to the debugger's watch list.
+     * @param id: The identifier for the number/string/sensor.
+     * @param value: The pointer to the value to debug. Note: if you are trying to write a sensor value,
+     * 				 the object needs to inherit PIDSource.
      */
     void AddValue (string id, double* value);
     void AddValue (string id, string* value);
-    void AddValue (string id, FUNCPTR function);
+    void AddValue (string id, PIDSource* value);
 
     /**
      * @brief SetTempMessage: Set a message to print out into all of the automatic
@@ -82,6 +84,11 @@ public:
      * @brief StopRun: Disables the debugger.
      */
     void StopRun();
+
+    /**
+     * @brief CloseFile: Closes non-automatic debugging files.
+     */
+    void CloseFile();
 
     // AUTON DEBUGGER ---------------------------------------------------------------------------
 
@@ -183,11 +190,14 @@ private:
     //User-defined debugging data
     vector<NumData> m_numList;
     vector<StringData> m_stringList;
-    vector<FuncData> m_funcList;
+    vector<SensorData> m_sensorList;
     string m_tempMsg;
     string m_manualLog;
-    ofstream* m_fout;
+
+    stringstream* m_concat;
+    ofstream m_fout;
     CSVWriter* m_csv;
+    CSVWriter* m_manualCsv;
     double m_debugInterval;
     time_t m_lastDebugTime;
     time_t m_startTime;
