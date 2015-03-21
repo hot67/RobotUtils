@@ -6,6 +6,11 @@
 #include <vector>
 //#include <string>
 
+enum data_send_t {
+    kPrintData,
+    kGetData,
+    kNone
+};
 
 class HotSubsystem
 {
@@ -14,9 +19,10 @@ public:
 	HotSubsystem(std::string id) { m_id = id; }
 	virtual ~HotSubsystem();
 	
-	/********** Constents **********/
+    /********** Constants **********/
 	virtual void Update() {}
 	virtual void PrintData() {}
+    virtual void GetData() {}
 	
 	/********** Internal Functions **********/
 	void Print (std::string id, float value);
@@ -39,9 +45,9 @@ public:
 	
 	/********** Flag Control **********/
 	void SetUpdate(bool on) { f_runUpdate = on; }
-	void SetPrintData(bool on) { f_runPrintData = on; }
+    void SetDataSender(data_send_t on) { f_dataSend = on; }
 	bool GetUpdate() { return f_runUpdate; }
-	bool GetPrintData() { return f_runPrintData; }
+    data_send_t GetDataSender() { return f_dataSend; }
 	
 private:
 	std::vector<HotSubsystem*> m_subsystems;
@@ -51,7 +57,7 @@ private:
 	
 	/********** Flags **********/
 	bool f_runUpdate;
-	bool f_runPrintData;
+    data_send_t f_dataSend;
 };
 
 

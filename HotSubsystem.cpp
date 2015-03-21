@@ -26,7 +26,7 @@ HotSubsystemHandler::HotSubsystemHandler()
 {
 	/***** Set Default Flag *****/
 	f_runUpdate = true;
-	f_runPrintData = true;
+    f_dataSend = kPrintData;
 }
 
 /********** Deconstructor **********/
@@ -55,9 +55,15 @@ void HotSubsystemHandler::Run()
 		{
 			m_subsystems[i]->Update();
 		}
-		if (f_runUpdate)
-		{
-			m_subsystems[i]->PrintData();
-		}
+
+        switch (f_dataSend)
+        {
+        case kPrintData:
+            m_subsystems[i]->PrintData();
+            break;
+        case kGetData:
+            m_subsystems[i]->GetData();
+            break;
+        }
 	}
 }
