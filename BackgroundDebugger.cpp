@@ -15,6 +15,9 @@ BackgroundDebugger::BackgroundDebugger(double debugInterval, bool clearContents)
     m_manualCsv = new CSVWriter;
     m_manualCsv->setColumns(3);
 
+    m_startTime = new time_t;
+    m_lastDebugTime = new time_t;
+
     //Auton setup
     m_autonCase = NULL;
     m_lastCase = 0;
@@ -58,10 +61,14 @@ BackgroundDebugger::BackgroundDebugger(double debugInterval, bool clearContents)
             }
         }
     }
+
+    cout << "Background Debugger initialized." << endl;
 }
 
 BackgroundDebugger::~BackgroundDebugger()
 {
+	StopRun();
+
     if (m_fout.is_open())
         m_fout.close();
 
@@ -151,22 +158,25 @@ void BackgroundDebugger::StartRun()
 {
 	unsigned x;
 	struct stat st;
+	std::string tmp;
+
+	CloseFile();
 
     m_runNum++;
-    (*m_concat) << "/home/lvuser/Run"<<m_runNum;
+    (*m_concat) << "/home/lvuser/Run"<<m_runNum<<'/';
     (*m_concat) >> m_runPath;
 
-    time(&m_startTime);
+    m_concat->str("");
+    m_concat->clear();
+
+    time(m_startTime);
 
     if (!S_ISDIR(stat(m_runPath.c_str(),&st)))
     {
         mkdir(m_runPath.c_str(), 0755);
-        m_runPath += '/';
     }
     else if (f_delContents)
     {
-        m_runPath += '/';
-
         struct dirent* curFile;
         DIR* folder;
         string filepath;
@@ -175,7 +185,7 @@ void BackgroundDebugger::StartRun()
 
         while (curFile = readdir(folder))
         {
-            if (strcmp(curFile->d_name, ".") != 0 && strcmp(curFile->d_name, ".."))
+            if (strcmp(curFile->d_name, ".") != 0 && strcmp(curFile->d_name, "..") != 0)
             {
                 filepath = m_runPath+curFile->d_name;
                 remove(filepath.c_str());
@@ -184,7 +194,11 @@ void BackgroundDebugger::StartRun()
     }
 
     (*m_concat) << m_runPath << "data.csv";
-    m_csv->open(m_concat->str().c_str());
+    (*m_concat) >> tmp;
+
+    LogData("Trying to open file",tmp);
+
+    m_csv->open(tmp.c_str());
     m_csv->setColumns(m_numList.size()+m_stringList.size()+m_sensorList.size()+1);
 
     if (m_csv->is_open())
@@ -199,7 +213,15 @@ void BackgroundDebugger::StartRun()
             m_csv->writeCell(m_stringList[x].id);
     }
 
+    LogData("Data file opened",m_csv->is_open());
+
+    if (m_csv->is_open())
+    	LogData("Data log opened",m_concat->str());
+
     f_running = true;
+
+    m_concat->str("");
+    m_concat->clear();
 }
 
 void BackgroundDebugger::StopRun()
@@ -207,6 +229,7 @@ void BackgroundDebugger::StopRun()
     Preferences* prefs;
 
     m_csv->close();
+    CloseFile();
 
     prefs = Preferences::GetInstance();
 
@@ -219,6 +242,7 @@ void BackgroundDebugger::StopRun()
 
 void BackgroundDebugger::Update()
 {
+	cout << "Update function of debugger running" << endl;
     if (f_running)
     {
         unsigned x;
@@ -227,16 +251,16 @@ void BackgroundDebugger::Update()
         message = m_tempMsg;
 
         //Logging
-        if ((difftime(time(NULL),m_lastDebugTime)*1000.0) >= m_debugInterval)
+        if ((difftime(time(NULL),*m_lastDebugTime)*1000.0) >= m_debugInterval)
         {
             if (m_csv->is_open())
             {
-                m_csv->writeCell((float)difftime(time(NULL),m_startTime));
+                m_csv->writeCell((float)difftime(time(NULL),*m_startTime));
                 if (message != "")
                 {
                     m_csv->writeCell(message);
                     m_csv->newRow();
-                    m_csv->writeCell((float)difftime(time(NULL),m_startTime));
+                    m_csv->writeCell((float)difftime(time(NULL),*m_startTime));
                 }
 
 
@@ -248,7 +272,7 @@ void BackgroundDebugger::Update()
                     m_csv->writeCell(*m_stringList[x].value);
             }
 
-            time(&m_lastDebugTime);
+            time(m_lastDebugTime);
             if (m_tempMsg.compare(message) == 0)
                 m_tempMsg = "";
         }
@@ -256,7 +280,7 @@ void BackgroundDebugger::Update()
         if (DriverStation::GetInstance()->IsAutonomous())
         {
             if (m_caseTime == NULL)
-                time(&m_caseTime);
+                time(m_caseTime);
 
             watchAuton();
         }
@@ -265,17 +289,24 @@ void BackgroundDebugger::Update()
     }
 }
 
+void BackgroundDebugger::PrintData()
+{
+	SmartDashboard::PutBoolean("Auto CSV File Open",m_csv->is_open());
+	SmartDashboard::PutBoolean("Auto CSV File Good",m_csv->good());
+	SmartDashboard::PutString("Run Path",m_runPath);
+}
+
 void BackgroundDebugger::watchAuton()
 {
     if ((*m_autonCase > 0 && *m_autonCase < m_endCase) && f_watchAuton && f_autonState)
     {
         if (*m_autonCase > m_lastCase)
         {
-            time(&m_caseTime);
+            time(m_caseTime);
             m_lastCase = *m_autonCase;
         }
 
-        if (difftime(time(NULL),m_caseTime) > m_caseDuration)
+        if (difftime(time(NULL),*m_caseTime) > m_caseDuration)
         {
             f_autonState = false;
             dumpAuton();
@@ -295,7 +326,7 @@ void BackgroundDebugger::dumpAuton()
     m_fout<<"BackgroundDebugger created this file because it detected that case "<<(*m_autonCase);
     m_fout<<" of the autonomous mode you ran did not advance to the next case inside of "<<m_caseDuration<<" seconds."<<endl<<endl;
     m_fout<<"Below is a dump of all sensor and time data available to BackgroundDebugger."<<endl<<endl;
-    m_fout<<"Maximum configured case duration: "<<m_caseDuration<<endl<<"Case run time: "<<difftime(time(NULL),m_caseTime)<<endl<<endl;
+    m_fout<<"Maximum configured case duration: "<<m_caseDuration<<endl<<"Case run time: "<<difftime(time(NULL),*m_caseTime)<<endl<<endl;
 
     for (x = 0; x < m_sensorList.size(); x++)
     	m_fout<<m_sensorList[x].id<<": "<<m_sensorList[x].source->PIDGet()<<endl;

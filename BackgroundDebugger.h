@@ -174,6 +174,7 @@ public:
 
 protected:
     void Update();
+    void PrintData();
 private:
     //Auton debugger
     void watchAuton();
@@ -185,7 +186,7 @@ private:
     double m_caseDuration;
     bool f_autonState;
     bool f_watchAuton;
-    time_t m_caseTime;
+    time_t* m_caseTime;
 
     //User-defined debugging data
     vector<NumData> m_numList;
@@ -199,8 +200,8 @@ private:
     CSVWriter* m_csv;
     CSVWriter* m_manualCsv;
     double m_debugInterval;
-    time_t m_lastDebugTime;
-    time_t m_startTime;
+    time_t* m_lastDebugTime;
+    time_t* m_startTime;
 
     bool f_running;
     bool f_delContents;
