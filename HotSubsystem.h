@@ -3,6 +3,7 @@
 
 #include "WPILib.h"
 #include "HotThread.h"
+#include "DataResources.h"
 #include <vector>
 //#include <string>
 
@@ -23,6 +24,9 @@ public:
 	virtual void Update() {}
 	virtual void PrintData() {}
     virtual void GetData() {}
+
+    /********** Debugger Interface Functions **********/
+    virtual ResourcePackage GetResources() { return NULL; }
 	
 	/********** Internal Functions **********/
 	void Print (std::string id, float value);

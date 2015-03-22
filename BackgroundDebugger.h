@@ -4,6 +4,7 @@
 #include "HotSubsystem.h"
 #include "WPILib.h"
 #include "tools/csvwriter.h"
+#include "DataResources.h"
 #include <fstream>
 #include <vector>
 #include <ctime>
@@ -18,21 +19,6 @@
 #define AUTON_CASE_DURATION 3 //s
 
 using namespace std;
-
-typedef struct {
-    string id;
-    double* value;
-} NumData;
-
-typedef struct {
-    string id;
-    string* value;
-} StringData;
-
-typedef struct {
-    string id;
-    PIDSource* source;
-} SensorData;
 
 class BackgroundDebugger: public HotSubsystem
 {
@@ -50,13 +36,20 @@ public:
     // DEBUG FUNCTIONS ---------------------------------------------------------------------------
     /**
      * @brief AddValue: Adds a number/string/sensor to the debugger's watch list.
-     * @param id: The identifier for the number/string/sensor.
+     * @param id: The identifier for the number/string/boolean/sensor.
      * @param value: The pointer to the value to debug. Note: if you are trying to write a sensor value,
      * 				 the object needs to inherit PIDSource.
      */
     void AddValue (string id, double* value);
     void AddValue (string id, string* value);
+    void AddValue (string id, bool* value);
     void AddValue (string id, PIDSource* value);
+
+    /**
+     * @brief ImportResources: Import resources from a subsystem with an overridden GetResources function.
+     * @param subsys: A pointer to the subsystem to import from.
+     */
+    void ImportResources (HotSubsystem* subsys);
 
     /**
      * @brief SetTempMessage: Set a message to print out into all of the automatic
@@ -192,6 +185,7 @@ private:
     vector<NumData> m_numList;
     vector<StringData> m_stringList;
     vector<SensorData> m_sensorList;
+    vector<BoolData> m_boolList;
     string m_tempMsg;
     string m_manualLog;
     string m_manualLogPath;

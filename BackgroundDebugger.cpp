@@ -109,6 +109,28 @@ void BackgroundDebugger::AddValue(string id, string *value)
     m_stringList.push_back(stringData);
 }
 
+void BackgroundDebugger::AddValue(string id, bool *value)
+{
+    BoolData boolData;
+
+    boolData.id = id;
+    boolData.value = value;
+
+    m_boolList.push_back(boolData);
+}
+
+void BackgroundDebugger::ImportResources(HotSubsystem *subsys)
+{
+    ResourcePackage pkg;
+
+    pkg = subsys->GetResources();
+
+    m_numList.insert(m_numList.end(), pkg.nums.begin(), pkg.nums.end());
+    m_stringList.insert(m_stringList.end(), pkg.strings.begin(), pkg.strings.end());
+    m_boolList.insert(m_boolList.end(), pkg.bools.begin(), pkg.bools.end());
+    m_sensorList.insert(m_sensorList.end(), pkg.sensors.begin(), pkg.sensors.end());
+}
+
 void BackgroundDebugger::LogData(string id, double value)
 {
     LogData(id,to_string(value));
@@ -204,6 +226,7 @@ void BackgroundDebugger::StartRun()
         vector<SensorData>::iterator snit;
         vector<NumData>::iterator nit;
         vector<StringData>::iterator stit;
+        vector<BoolData>::iterator bit;
 
         for (snit = m_sensorList.begin(); snit != m_sensorList.end(); ++snit)
         	m_csv->writeCell((*snit).id);
@@ -213,6 +236,9 @@ void BackgroundDebugger::StartRun()
 
         for (stit = m_stringList.begin(); stit != m_stringList.end(); ++stit)
         	m_csv->writeCell((*stit).id);
+
+        for (bit = m_boolList.begin(); bit != m_boolList.end(); ++bit)
+            m_csv->writeCell((*bit).id);
     }
     f_running = true;
 
@@ -251,6 +277,7 @@ void BackgroundDebugger::Update()
         vector<SensorData>::iterator snit;
         vector<NumData>::iterator nit;
         vector<StringData>::iterator stit;
+        vector<BoolData>::iterator bit;
 
         message = m_tempMsg;
 
@@ -274,6 +301,8 @@ void BackgroundDebugger::Update()
 					m_csv->writeCell((float)*((*nit).value));
 				for (stit = m_stringList.begin(); stit != m_stringList.end(); ++stit)
 					m_csv->writeCell(*((*stit).value));
+                for (bit = m_boolList.begin(); bit != m_boolList.end(); ++bit)
+                    m_csv->writeCell(*((*bit).value));
             }
 
             time(m_lastDebugTime);
@@ -318,7 +347,10 @@ void BackgroundDebugger::watchAuton()
 
 void BackgroundDebugger::dumpAuton()
 {
-	unsigned x;
+    vector<NumData>::iterator nit;
+    vector<StringData>::iterator stit;
+    vector<BoolData>::iterator bit;
+    vector<SensorData>::iterator snit;
 
 	(*m_concat) << m_runPath << "AUTON_FAIL.txt";
 
@@ -330,12 +362,14 @@ void BackgroundDebugger::dumpAuton()
     m_fout<<"Below is a dump of all sensor and time data available to BackgroundDebugger."<<endl<<endl;
     m_fout<<"Maximum configured case duration: "<<m_caseDuration<<endl<<"Case run time: "<<difftime(time(NULL),*m_caseTime)<<endl<<endl;
 
-    for (x = 0; x < m_sensorList.size(); x++)
-    	m_fout<<m_sensorList[x].id<<": "<<m_sensorList[x].source->PIDGet()<<endl;
-    for (x = 0; x < m_numList.size(); x++)
-        m_fout<<m_numList[x].id<<": "<<(*m_numList[x].value)<<endl;
-    for (x = 0; x < m_stringList.size(); x++)
-        m_fout<<m_stringList[x].id<<": "<<(*m_stringList[x].value)<<endl;
+    for (snit = m_sensorList.begin(); snit != m_sensorList.end(); ++snit)
+        m_fout<<(*snit).id<<": "<<(*snit).source->PIDGet()<<endl;
+    for (nit = m_numList.begin(); nit != m_numList.end(); ++nit)
+        m_fout<<(*nit).id<<": "<<(*(*nit).value)<<endl;
+    for (stit = m_stringList.begin(); stit != m_stringList.end(); ++stit)
+        m_fout<<(*stit).id<<": "<<(*(*stit).value)<<endl;
+    for (bit = m_boolList.begin(); bit != m_boolList.end(); ++bit)
+        m_fout<<(*bit).id<<": "<<boolalpha<<(*(*bit).value)<<endl;
 
     m_fout.close();
     m_concat->clear();
