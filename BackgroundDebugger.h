@@ -14,8 +14,8 @@
 #include <sstream>
 #include <string>
 
-#define DEBUG_INTERVAL 500 //ms
-#define AUTON_CASE_DURATION 2.5 //s
+#define DEBUG_INTERVAL 1 //s
+#define AUTON_CASE_DURATION 3 //s
 
 using namespace std;
 
@@ -163,7 +163,7 @@ public:
      *        LogData writes to data to
      * @param fName: File name to write manual log to (without the extension)
      */
-    void SetManualLoggingName (string fName) { m_manualLog = fName+"_manual.txt"; }
+    void SetManualLoggingName (string fName);
 
     /**
      * @brief SetDebugInterval: Set the interval at which
@@ -194,6 +194,7 @@ private:
     vector<SensorData> m_sensorList;
     string m_tempMsg;
     string m_manualLog;
+    string m_manualLogPath;
 
     stringstream* m_concat;
     ofstream m_fout;
