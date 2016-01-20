@@ -26,8 +26,8 @@ public:
 	/******************************
 	 * 	Getter
 	 ******************************/
-	std::string GetName();
-	HotBot* GetBot() { return m_bot; }
+	std::string GetName() const;
+	HotBot* GetBot() const;
 
 	/******************************
 	 * 	Initialization

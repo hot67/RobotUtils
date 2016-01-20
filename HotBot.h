@@ -19,8 +19,17 @@ class HotBot : public IterativeRobot, public HotLog {
 public:
 	/******************************
 	 * 	Structure
+	 * 		In constructor,
+	 * 		we do,
+	 * 		1.	create all log files
+	 *		In each robot,
+	 *		1.	declare all non-subsystem components
+	 *		2.	declare all log schema
+	 *		3.	include all subsystems
+	 *		4.	call start log to prepare logging
 	 ******************************/
-	HotBot(std::string name);
+	HotBot(std::string name, std::string dirPath = "/log/");
+	virtual ~HotBot() {}
 
 	/**
 	 * 	Set Subsystem
@@ -31,7 +40,7 @@ public:
 	/**
 	 * 	Get Full Name
 	 */
-	std::string GetFullName () { return m_name; }
+	std::string GetFullName () const;
 
 	/******************************
 	 * 	Set Joysticks
@@ -39,8 +48,8 @@ public:
 	void SetDriver(unsigned int port);
 	void SetOperator(unsigned int port);
 
-	HotJoystick* GetDriver();
-	HotJoystick* GetOperator();
+	HotJoystick* GetDriver() const;
+	HotJoystick* GetOperator() const;
 
 	/******************************
 	 * 	Loop Structure
@@ -72,12 +81,42 @@ public:
 	virtual void TeleopPeriod() {}
 	virtual void TestPeriod() {}
 
+	virtual void GeneralPeriod() {}
 
+	/******************************
+	 * 	Start The System
+	 * 		This function initialize the system and prepare the system.
+	 * 		Should be called in constructor
+	 ******************************/
+	void Start();
+
+	/******************************
+	 * 	For Log System
+	 ******************************/
+	/**
+	 * 	Number all channels
+	 * 	Prepare files to save log data
+	 */
+	void StartLog();
+
+	/**
+	 * 	Timeframe
+	 * 		Define timeframe of log system
+	 * 		Save timestamp and write it in data file
+	 * 		Iterate through all channels and write their data if it is updated
+	 */
+	void Timeframe();
 private:
 	std::string m_name;
 	std::map<std::string, HotSubsystem*> m_subsystems;
 
 	HotJoystick *m_driver, *m_operator;
+
+	/**
+	 * 	Log System
+	 */
+	std::ofstream *m_data, *m_meta;
+	Timer *m_timer;
 };
 
 #endif /* SRC_HOTBOT_H_ */

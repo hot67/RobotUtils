@@ -16,6 +16,13 @@ HotSubsystem::HotSubsystem(HotBot* bot, std::string name)
 	m_bot->SetSubsystem(this);
 }
 
-std::string HotSubsystem::GetName() {
+/******************************
+ * 	Getters
+ ******************************/
+std::string HotSubsystem::GetName() const {
 	return m_name;
+}
+
+HotBot* HotSubsystem::GetBot() const {
+	return m_bot;
 }

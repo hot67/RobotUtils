@@ -37,8 +37,8 @@ public:
 	 * 		Key is unique under the HotLog
 	 * 		FullKey is unique among the entire system
 	 ******************************/
-	std::string GetKey();
-	std::string GetFullKey();
+	std::string GetKey() const;
+	std::string GetFullKey() const;
 
 	/******************************
 	 *	Configure The Channel

@@ -42,21 +42,21 @@ public:
 	/**
 	 * 	Read IO Range
 	 */
-	float GetInputMin() { return m_inMin; }
-	float GetInputMax() { return m_inMax; }
-	float GetOutputMin() { return m_outMin; }
-	float GetOutputMax() { return m_outMax; }
+	float GetInputMin() const;
+	float GetInputMax() const;
+	float GetOutputMin() const;
+	float GetOutputMax() const;
 
 	/**
 	 * 	Read Continuous
 	 */
-	bool IsContinuous() { return m_continuous; }
+	bool IsContinuous() const;
 
 	/******************************
-	 * 	Get Input/Output Value Value
+	 * 	Get Input/Output Value
 	 ******************************/
-	double GetInput() { return m_source->PIDGet(); }
-	double GetOutput() { return Get(); }
+	double GetInput() const;
+	double GetOutput() const;
 
 	/******************************
 	 * 	Control P/I/D

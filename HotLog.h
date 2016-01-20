@@ -31,8 +31,8 @@ public:
 	/******************************
 	 * 	Getters
 	 ******************************/
-	virtual std::string GetName();
-	virtual std::string GetFullName();
+	virtual std::string GetName() const;
+	virtual std::string GetFullName() const;
 
 	/******************************
 	 * 	Define Log Schema
@@ -61,8 +61,14 @@ public:
 
 	/******************************
 	 * 	Log
+	 * 		Run log period
 	 ******************************/
 	void Log();
+
+	/******************************
+	 * 	Number Channels
+	 ******************************/
+	unsigned char NumberChannels (unsigned char index);
 
 private:
 	HotLog *m_parent;

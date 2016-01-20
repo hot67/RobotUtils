@@ -16,11 +16,11 @@ HotLogChannel::HotLogChannel(HotLog* log, std::string key, Type type, float min,
 	m_accuracy = accuracy;
 }
 
-std::string HotLogChannel::GetKey() {
+std::string HotLogChannel::GetKey() const {
 	return m_key;
 }
 
-std::string HotLogChannel::GetFullKey() {
+std::string HotLogChannel::GetFullKey() const {
 	return m_log->GetFullName() + "." + GetKey();
 }
 

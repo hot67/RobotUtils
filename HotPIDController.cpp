@@ -7,6 +7,9 @@
 
 #include "HotPIDController.h"
 
+/******************************
+ * 	Constructors
+ ******************************/
 HotPIDController::HotPIDController(HotLog* parent, std::string name,
 		float p, float i, float d, PIDSource *source, PIDOutput *output, float period)
 : PIDController(p, i, d, source, output, period), HotLog(parent, name) {
@@ -55,7 +58,39 @@ void HotPIDController::SetOutputRange(float outMin, float outMax) {
 	PIDController::SetOutputRange(outMin, outMax);
 }
 
+/******************************
+ * 	Get Status
+ ******************************/
+float HotPIDController::GetInputMin() const {
+	return m_inMin;
+}
 
+float HotPIDController::GetInputMax() const {
+	return m_inMax;
+}
+
+float HotPIDController::GetOutputMin() const {
+	return m_outMin;
+}
+
+float HotPIDController::GetOutputMax() const {
+	return m_outMax;
+}
+
+bool HotPIDController::IsContinuous() const {
+	return m_continuous;
+}
+
+/******************************
+ * 	Get Input/Output Value
+ ******************************/
+double HotPIDController::GetInput() const {
+	return m_source->PIDGet();
+}
+
+double HotPIDController::GetOutput() const {
+	return Get();
+}
 /******************************
  * 	Control PID
  ******************************/
