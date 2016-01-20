@@ -28,14 +28,42 @@ This library is unfinished as of yet. This list will be updated as new functiona
 
 ## Details
 ### HotBot
+
+Base class that extends IterativeRobot.
+Main robot class should inherit this class
+
 `HotBot : public IterativeRobot, public HotLog`
-### HotSubsyste
+
+### HotSubsystem
+
+Base class for subsystem.
+As soon as this class is instantiated, this subsystem is set as subsystem of parent HotBot class.
+With no configuration, all periodic / initializaction functions, including `RobotInit`, `TeleopInit`, `AutonPeriod`, etc... should run when it should run.
+
 `HotSubsystem : public HotLog`
+
 ### HotLog
+
+Abstruct class that has any data to be logged.
+`HotBot`, `HotSubsystem`, `HotJoystick`, `HotPIDController` inherits this class.
+If you define new class that have logging data, you should inherit this class.
+
 `HotLog`
+
 ### HotJoystick
+
+Wrapper of Joystick specified for xbox controller.
+This class extends functionality of Joystick including, easy access to each button and axis, simple button pressed function.
+All control are logged.
+
 `HotJoystick : public Joystick, public HotLog`
+
 ### HotPIDController
+
+Wrapper of PIDController.
+Easy access to PID coefficients.
+Log input and output value of PID, coefficients, setpoints, etc...
+
 `HotPIDController : public Joystick, public PIDController`
 
 ## How to use
