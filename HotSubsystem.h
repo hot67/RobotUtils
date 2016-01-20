@@ -1,64 +1,55 @@
-#ifndef HOTSUBSYSTEM_H
-#define HOTSUBSYSTEM_H
+/*
+ * HotSubsystem.h
+ *
+ *  Created on: Jan 18, 2016
+ *      Author: Jin
+ */
 
-#include "WPILib.h"
-#include "HotThread.h"
-#include <vector>
-//#include <string>
+#ifndef SRC_HOTSUBSYSTEM_H_
+#define SRC_HOTSUBSYSTEM_H_
 
-enum data_send_t {
-    kPrintData,
-    kGetData,
-    kNone
-};
+#include "HotBot.h"
+#include "HotLog.h"
+#include "HotJoystick.h"
 
-class HotSubsystem
-{
+class HotBot;
+
+class HotSubsystem : public HotLog {
 public:
-	/********** Constructor **********/
-	HotSubsystem(std::string id) { m_id = id; }
-	virtual ~HotSubsystem();
-	
-    /********** Constants **********/
-	virtual void Update() {}
-	virtual void PrintData() {}
-    virtual void GetData() {}
-	
-	/********** Internal Functions **********/
-	void Print (std::string id, float value);
-	void Print (std::string id, bool value);
-	
+	/******************************
+	 * 	Constructor
+	 * 		In this function, we connect subsystem and hot bot.
+	 ******************************/
+	HotSubsystem(HotBot* bot, std::string name);
+	virtual ~HotSubsystem() {}
+
+	/******************************
+	 * 	Getter
+	 ******************************/
+	std::string GetName();
+	HotBot* GetBot() { return m_bot; }
+
+	/******************************
+	 * 	Initialization
+	 ******************************/
+	virtual void RobotInit() {}
+	virtual void DisabledInit() {}
+	virtual void AutonInit() {}
+	virtual void TeleopInit() {}
+	virtual void TestInit() {}
+
+	/******************************
+	 *	Period
+	 ******************************/
+	virtual void DisabledPeriod() {}
+	virtual void AutonPeriod() {}
+	virtual void TeleopPeriod() {}
+	virtual void TestPeriod() {}
+
+	virtual void GeneralPeriod() {}
 private:
-	std::string m_id;
+	std::string m_name;
+	HotBot* m_bot;
 };
 
-
-class HotSubsystemHandler : public HotThread
-{
-public:
-	/********** Constructor **********/
-	HotSubsystemHandler();
-	~HotSubsystemHandler();
-	
-	/********** Add New Subsystem to Handler **********/
-	void Add(HotSubsystem* subsystem);
-	
-	/********** Flag Control **********/
-	void SetUpdate(bool on) { f_runUpdate = on; }
-    void SetDataSender(data_send_t on) { f_dataSend = on; }
-	bool GetUpdate() { return f_runUpdate; }
-    data_send_t GetDataSender() { return f_dataSend; }
-	
-private:
-	std::vector<HotSubsystem*> m_subsystems;
-	
-	/********** Main Function **********/
-	void Run();
-	
-	/********** Flags **********/
-	bool f_runUpdate;
-    data_send_t f_dataSend;
-};
-
-
-#endif
+#endif /* SRC_HOTSUBSYSTEM_H_ */
