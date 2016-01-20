@@ -1,12 +1,6 @@
-/*
- * HotLib.h
- *
- *  Created on: Jan 18, 2016
- *      Author: Jin
- */
 
-#ifndef SRC_HOTLIB_H_
-#define SRC_HOTLIB_H_
+#ifndef SRC_ROBOTUTILS_H_
+#define SRC_ROBOTUTILS_H_
 
 #include "HotBot.h"
 #include "HotJoystick.h"
@@ -17,4 +11,4 @@
 
 
 
-#endif /* SRC_HOTLIB_H_ */
+#endif /* SRC_ROBOTUTILS_H_ */

@@ -1,9 +1,3 @@
-/*
- * HotLogChannel.h
- *
- *  Created on: Jan 18, 2016
- *      Author: Jin
- */
 
 #ifndef SRC_HOTLOGCHANNEL_H_
 #define SRC_HOTLOGCHANNEL_H_

@@ -1,10 +1,3 @@
-/*
- * HotJoystick.h
- *
- *  Created on: Jan 18, 2016
- *      Author: Jin
- */
-
 #ifndef SRC_HOTJOYSTICK_H_
 #define SRC_HOTJOYSTICK_H_
 

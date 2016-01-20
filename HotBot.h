@@ -1,10 +1,3 @@
-/*
- * HotBot.h
- *
- *  Created on: Jan 18, 2016
- *      Author: Jin
- */
-
 #ifndef SRC_HOTBOT_H_
 #define SRC_HOTBOT_H_
 

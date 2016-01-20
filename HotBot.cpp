@@ -1,10 +1,3 @@
-/*
- * HotBot.cpp
- *
- *  Created on: Jan 18, 2016
- *      Author: Jin
- */
-
 #include "HotBot.h"
 
 /******************************

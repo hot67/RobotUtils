@@ -1,10 +1,3 @@
-/*
- * HotJoystick.cpp
- *
- *  Created on: Jan 18, 2016
- *      Author: Jin
- */
-
 #include "HotJoystick.h"
 
 HotJoystick::HotJoystick(HotLog* bot, std::string name, unsigned int port)

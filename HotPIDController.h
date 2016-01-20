@@ -1,9 +1,3 @@
-/*
- * HotPIDController.h
- *
- *  Created on: Jan 18, 2016
- *      Author: Jin
- */
 
 #ifndef SRC_HOTPIDCONTROLLER_H_
 #define SRC_HOTPIDCONTROLLER_H_

@@ -1,9 +1,3 @@
-/*
- * HotLog.h
- *
- *  Created on: Jan 18, 2016
- *      Author: Jin
- */
 
 #ifndef SRC_HOTLOG_H_
 #define SRC_HOTLOG_H_
