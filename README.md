@@ -27,11 +27,16 @@ This library is unfinished as of yet. This list will be updated as new functiona
 
 
 ## Details
-### `HotBot : public IterativeRobot, public HotLog`
-### `HotSubsystem : public HotLog`
-### `HotLog`
-### `HotJoystick : public Joystick, public HotLog`
-### `HotPIDController : public Joystick, public PIDController`
+### HotBot
+`HotBot : public IterativeRobot, public HotLog`
+### HotSubsyste
+`HotSubsystem : public HotLog`
+### HotLog
+`HotLog`
+### HotJoystick
+`HotJoystick : public Joystick, public HotLog`
+### HotPIDController
+`HotPIDController : public Joystick, public PIDController`
 
 ## How to use
 
