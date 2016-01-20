@@ -20,6 +20,7 @@ HotBot::HotBot(std::string name, std::string dirPath) : HotLog(this, name) {
 	 */
 	m_timer->Start();
 }
+HotBot::~HotBot() {}
 
 /******************************
  * 	Get Name Infomation
@@ -160,6 +161,21 @@ void HotBot::TestPeriodic() {
 
 	Timeframe();
 }
+
+/******************************
+ * 	To be Defined
+ ******************************/
+void HotBot::RobotInitialization() {}
+void HotBot::DisabledInitialization() {}
+void HotBot::AutonInitialization() {}
+void HotBot::TeleopInitialization() {}
+void HotBot::TestInitialization() {}
+
+void HotBot::DisabledPeriod() {}
+void HotBot::AutonPeriod() {}
+void HotBot::TeleopPeriod() {}
+void HotBot::TestPeriod() {}
+void HotBot::GeneralPeriod() {}
 
 /******************************
  * 	Start

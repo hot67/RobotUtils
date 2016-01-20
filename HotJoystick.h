@@ -57,6 +57,7 @@ public:
 	 */
 	float Axis(kAxis axis);
 
+
 	/**
 	 * 	Access Button Press
 	 * 		This function only return true when a button is newly pressed

@@ -22,7 +22,7 @@ public:
 	 *		4.	call start log to prepare logging
 	 ******************************/
 	HotBot(std::string name, std::string dirPath = "/log/");
-	virtual ~HotBot() {}
+	virtual ~HotBot();
 
 	/**
 	 * 	Set Subsystem
@@ -63,18 +63,18 @@ public:
 	 * 		These function should be overwritten
 	 * 		to define what robot should do in each period/initialization
 	 ******************************/
-	virtual void RobotInitialization() {}
-	virtual void DisabledInitialization() {}
-	virtual void AutonInitialization() {}
-	virtual void TeleopInitialization() {}
-	virtual void TestInitialization() {}
+	virtual void RobotInitialization();
+	virtual void DisabledInitialization();
+	virtual void AutonInitialization();
+	virtual void TeleopInitialization();
+	virtual void TestInitialization();
 
-	virtual void DisabledPeriod() {}
-	virtual void AutonPeriod() {}
-	virtual void TeleopPeriod() {}
-	virtual void TestPeriod() {}
+	virtual void DisabledPeriod();
+	virtual void AutonPeriod();
+	virtual void TeleopPeriod();
+	virtual void TestPeriod();
 
-	virtual void GeneralPeriod() {}
+	virtual void GeneralPeriod();
 
 	/******************************
 	 * 	Start The System

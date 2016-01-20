@@ -15,32 +15,34 @@ public:
 	 * 		In this function, we connect subsystem and hot bot.
 	 ******************************/
 	HotSubsystem(HotBot* bot, std::string name);
-	virtual ~HotSubsystem() {}
+	virtual ~HotSubsystem();
 
 	/******************************
 	 * 	Getter
 	 ******************************/
 	std::string GetName() const;
 	HotBot* GetBot() const;
+	HotJoystick* GetDriver() const;
+	HotJoystick* GetOperator() const;
 
 	/******************************
 	 * 	Initialization
 	 ******************************/
-	virtual void RobotInit() {}
-	virtual void DisabledInit() {}
-	virtual void AutonInit() {}
-	virtual void TeleopInit() {}
-	virtual void TestInit() {}
+	virtual void RobotInit();
+	virtual void DisabledInit();
+	virtual void AutonInit();
+	virtual void TeleopInit();
+	virtual void TestInit();
 
 	/******************************
 	 *	Period
 	 ******************************/
-	virtual void DisabledPeriod() {}
-	virtual void AutonPeriod() {}
-	virtual void TeleopPeriod() {}
-	virtual void TestPeriod() {}
+	virtual void DisabledPeriod();
+	virtual void AutonPeriod();
+	virtual void TeleopPeriod();
+	virtual void TestPeriod();
 
-	virtual void GeneralPeriod() {}
+	virtual void GeneralPeriod();
 private:
 	std::string m_name;
 	HotBot* m_bot;

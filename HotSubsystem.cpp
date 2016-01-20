@@ -10,6 +10,8 @@ HotSubsystem::HotSubsystem(HotBot* bot, std::string name)
 	m_bot->SetSubsystem(this);
 }
 
+HotSubsystem::~HotSubsystem() {}
+
 /******************************
  * 	Getters
  ******************************/
@@ -20,3 +22,25 @@ std::string HotSubsystem::GetName() const {
 HotBot* HotSubsystem::GetBot() const {
 	return m_bot;
 }
+
+HotJoystick* HotSubsystem::GetDriver() const {
+	return GetBot()->GetDriver();
+}
+
+HotJoystick* HotSubsystem::GetOperator() const {
+	return GetBot()->GetOperator();
+}
+
+/******************************
+ * 	Functions to be defined
+ ******************************/
+void HotSubsystem::RobotInit() {}
+void HotSubsystem::DisabledInit() {}
+void HotSubsystem::AutonInit() {}
+void HotSubsystem::TeleopInit() {}
+void HotSubsystem::TestInit() {}
+void HotSubsystem::DisabledPeriod() {}
+void HotSubsystem::AutonPeriod() {}
+void HotSubsystem::TeleopPeriod() {}
+void HotSubsystem::TestPeriod() {}
+void HotSubsystem::GeneralPeriod() {}
