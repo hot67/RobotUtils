@@ -26,4 +26,13 @@ This library is unfinished as of yet. This list will be updated as new functiona
   * Log basic data automatically, including input/output value, PID coefficients, setpoints, etc...
 
 
-## HotBot
+## Features
+### HotBot
+### HotSubsystem
+### HotLog
+### HotJoystick
+### HotPIDController
+
+## How to use
+
+## Changes
