@@ -1,31 +1,31 @@
 #include "HotJoystick.h"
 
-HotJoystick::HotJoystick(HotLog* bot, std::string name, unsigned int port)
-: Joystick(port), HotLog(bot, name)  {
+HotJoystick::HotJoystick(HotLogger* bot, std::string name, unsigned int port)
+: Joystick(port), HotLogger(bot, name)  {
 	/**
 	 * 	Define Log Schema
 	 */
 	//	For Buttons
-	DefineBoolLog("ButtonA");
-	DefineBoolLog("ButtonB");
-	DefineBoolLog("ButtonX");
-	DefineBoolLog("ButtonY");
-	DefineBoolLog("ButtonLB");
-	DefineBoolLog("ButtonRB");
-	DefineBoolLog("ButtonBack");
-	DefineBoolLog("ButtonStart");
-	DefineBoolLog("ButtonL3");
-	DefineBoolLog("ButtonR3");
-	DefineBoolLog("ButtonLT");
-	DefineBoolLog("ButtonRT");
+	BooleanSchema("ButtonA");
+	BooleanSchema("ButtonB");
+	BooleanSchema("ButtonX");
+	BooleanSchema("ButtonY");
+	BooleanSchema("ButtonLB");
+	BooleanSchema("ButtonRB");
+	BooleanSchema("ButtonBack");
+	BooleanSchema("ButtonStart");
+	BooleanSchema("ButtonL3");
+	BooleanSchema("ButtonR3");
+	BooleanSchema("ButtonLT");
+	BooleanSchema("ButtonRT");
 
 	//	For axis
-	DefineDoubleLog("AxisLX", 0.0, 1.0, 0.01);
-	DefineDoubleLog("AxisLY", 0.0, 1.0, 0.01);
-	DefineDoubleLog("AxisRX", 0.0, 1.0, 0.01);
-	DefineDoubleLog("AxisRY", 0.0, 1.0, 0.01);
-	DefineDoubleLog("AxisLT", 0.0, 1.0, 0.01);
-	DefineDoubleLog("AxisRT", 0.0, 1.0, 0.01);
+	DoubleSchema("AxisLX", 0.0, 1.0, 0.01);
+	DoubleSchema("AxisLY", 0.0, 1.0, 0.01);
+	DoubleSchema("AxisRX", 0.0, 1.0, 0.01);
+	DoubleSchema("AxisRY", 0.0, 1.0, 0.01);
+	DoubleSchema("AxisLT", 0.0, 1.0, 0.01);
+	DoubleSchema("AxisRT", 0.0, 1.0, 0.01);
 }
 
 /**
@@ -95,24 +95,24 @@ void HotJoystick::GeneralPeriod() {
 }
 
 void HotJoystick::LogPeriod() {
-	Log("ButtonA", ButtonA());
-	Log("ButtonB", ButtonB());
-	Log("ButtonX", ButtonX());
-	Log("ButtonY", ButtonY());
-	Log("ButtonLB", ButtonLB());
-	Log("ButtonRB", ButtonRB());
-	Log("ButtonBack", ButtonBack());
-	Log("ButtonStart", ButtonStart());
-	Log("ButtonL3", ButtonL3());
-	Log("ButtonR3", ButtonR3());
-	Log("ButtonLT", ButtonLT());
-	Log("ButtonRT", ButtonRT());
+	WriteLog("ButtonA", ButtonA());
+	WriteLog("ButtonB", ButtonB());
+	WriteLog("ButtonX", ButtonX());
+	WriteLog("ButtonY", ButtonY());
+	WriteLog("ButtonLB", ButtonLB());
+	WriteLog("ButtonRB", ButtonRB());
+	WriteLog("ButtonBack", ButtonBack());
+	WriteLog("ButtonStart", ButtonStart());
+	WriteLog("ButtonL3", ButtonL3());
+	WriteLog("ButtonR3", ButtonR3());
+	WriteLog("ButtonLT", ButtonLT());
+	WriteLog("ButtonRT", ButtonRT());
 
 	//	For axis
-	Log("AxisLX", AxisLX());
-	Log("AxisLY", AxisLY());
-	Log("AxisRX", AxisRX());
-	Log("AxisRY", AxisRY());
-	Log("AxisLT", AxisLT());
-	Log("AxisRT", AxisRT());
+	WriteLog("AxisLX", AxisLX());
+	WriteLog("AxisLY", AxisLY());
+	WriteLog("AxisRX", AxisRX());
+	WriteLog("AxisRY", AxisRY());
+	WriteLog("AxisLT", AxisLT());
+	WriteLog("AxisRT", AxisRT());
 }

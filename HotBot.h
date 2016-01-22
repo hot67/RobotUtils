@@ -3,12 +3,11 @@
 
 #include "WPILib.h"
 #include "HotSubsystem.h"
-#include "HotLog.h"
 #include "HotJoystick.h"
 
 class HotSubsystem;
 
-class HotBot : public IterativeRobot, public HotLog {
+class HotBot : public IterativeRobot {
 public:
 	/******************************
 	 * 	Structure
@@ -21,7 +20,7 @@ public:
 	 *		3.	include all subsystems
 	 *		4.	call start log to prepare logging
 	 ******************************/
-	HotBot(std::string name, std::string dirPath = "/log/");
+	HotBot(std::string dirPath = "/log/");
 	virtual ~HotBot();
 
 	/**
@@ -31,10 +30,14 @@ public:
 	void SetSubsystem(HotSubsystem* subsystem);
 
 	/**
-	 * 	Get Full Name
+	 *	Getters
 	 */
-	std::string GetFullName () const;
+	HotLogSystem* GetLogSystem() const;
 
+	/**
+	 * 	Start The System
+	 */
+	void Start();
 	/******************************
 	 * 	Set Joysticks
 	 ******************************/
@@ -76,40 +79,14 @@ public:
 
 	virtual void GeneralPeriod();
 
-	/******************************
-	 * 	Start The System
-	 * 		This function initialize the system and prepare the system.
-	 * 		Should be called in constructor
-	 ******************************/
-	void Start();
-
-	/******************************
-	 * 	For Log System
-	 ******************************/
-	/**
-	 * 	Number all channels
-	 * 	Prepare files to save log data
-	 */
-	void StartLog();
-
-	/**
-	 * 	Timeframe
-	 * 		Define timeframe of log system
-	 * 		Save timestamp and write it in data file
-	 * 		Iterate through all channels and write their data if it is updated
-	 */
-	void Timeframe();
 private:
-	std::string m_name;
 	std::map<std::string, HotSubsystem*> m_subsystems;
 
-	HotJoystick *m_driver, *m_operator;
+	HotLogSystem* m_logSystem;
 
-	/**
-	 * 	Log System
-	 */
-	std::ofstream *m_data, *m_meta;
-	Timer *m_timer;
+	HotLogger* m_logger;
+
+	HotJoystick *m_driver, *m_operator;
 };
 
 #endif /* SRC_HOTBOT_H_ */

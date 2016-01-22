@@ -2,7 +2,7 @@
 #include "HotSubsystem.h"
 
 HotSubsystem::HotSubsystem(HotBot* bot, std::string name)
-: HotLog(bot, name) {
+: HotLogger(bot->GetLogSystem(), name) {
 	m_bot = bot;
 	m_name = name;
 

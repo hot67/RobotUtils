@@ -4,10 +4,11 @@
 
 #include <fstream>
 #include <string>
+#include <sstream>
+#include "HotLogger.h"
+#include "HotLogFile.h"
 
-#include "HotLog.h"
-
-class HotLog;
+class HotLogger;
 
 class HotLogChannel {
 public:
@@ -24,20 +25,15 @@ public:
 	 * 	Constructor
 	 * 		This function defines child-parent relationship to HotLog
 	 ******************************/
-	HotLogChannel(HotLog* log, std::string key, Type type, float min=0.0, float max=0.0, float accuracy=0.0);
+	HotLogChannel(unsigned char id, std::string name, Type type, float min=0.0, float max=0.0, float accuracy=0.0);
 
 	/******************************
 	 * 	Getters
 	 * 		Key is unique under the HotLog
 	 * 		FullKey is unique among the entire system
 	 ******************************/
-	std::string GetKey() const;
-	std::string GetFullKey() const;
-
-	/******************************
-	 *	Configure The Channel
-	 ******************************/
-	void SetID (unsigned char id);
+	unsigned char GetID() const;
+	std::string GetName() const;
 
 	/******************************
 	 * 	Set Value
@@ -47,16 +43,19 @@ public:
 	void Set(bool value);
 
 	/******************************
-	 * 	Write To File
+	 * 	Write Declare Line
 	 ******************************/
-	void WriteMeta(std::ofstream* metaFile);
-	void WriteData(std::ofstream* dataFile);
+	std::string DeclareLine();
+
+	/******************************
+	 * 	Write Data
+	 ******************************/
+	void WriteDate(HotLogFile* file);
 
 private:
 	unsigned char m_id = 0;
 	std::string m_key;
 	Type m_type;
-	HotLog* m_log;
 
 	//	For Double
 	double m_min = 0.0, m_max = 0.0, m_accuracy = 0.0;
