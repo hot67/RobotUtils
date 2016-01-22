@@ -34,6 +34,10 @@ public:
 	 */
 	HotLogSystem* GetLogSystem() const;
 
+	/**
+	 * 	Start The System
+	 */
+	void Start();
 	/******************************
 	 * 	Set Joysticks
 	 ******************************/
@@ -74,17 +78,6 @@ public:
 	virtual void TestPeriod();
 
 	virtual void GeneralPeriod();
-
-	/******************************
-	 * 	For Log System
-	 ******************************/
-	/**
-	 * 	Timeframe
-	 * 		Define timeframe of log system
-	 * 		Save timestamp and write it in data file
-	 * 		Iterate through all channels and write their data if it is updated
-	 */
-	void Timeframe();
 
 private:
 	std::map<std::string, HotSubsystem*> m_subsystems;

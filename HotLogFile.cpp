@@ -44,7 +44,18 @@ void HotLogFile::Start() {
 }
 
 void HotLogFile::WriteOnFile() {
+	/**
+	 * 	ToDo: Make this process thread
+	 * 		Copy -> Make thread -> Write in the thread
+	 */
+	unsigned char c_cache[HOTLOG_CACHE_SIZE];
+
+	//	Copy
+	for (int i = 0; i < HOTLOG_CACHE_SIZE; i++) {
+		c_cache[i] = m_cache[i];
+	}
+
 	m_meta->open(m_dir + "data", std::ios::out|std::ios::binary);
-	m_meta->write((char*) m_cache, HOTLOG_CACHE_SIZE);
+	m_meta->write((char*) c_cache, HOTLOG_CACHE_SIZE);
 	m_meta->close();
 }

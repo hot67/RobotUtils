@@ -9,6 +9,13 @@ HotBot::HotBot(std::string dirPath) {
 }
 HotBot::~HotBot() {}
 
+/**
+ * 	Start
+ */
+void HotBot::Start() {
+	m_logSystem->Start();
+}
+
 /******************************
  * 	Getters
  ******************************/
@@ -168,14 +175,3 @@ void HotBot::GeneralPeriod() {}
  * 	Start
  ******************************/
 
-/******************************
- * 	Start Log System
- ******************************/
-void HotBot::StartLog() {
-}
-
-/******************************
- * 	Time frame
- ******************************/
-void HotBot::Timeframe() {
-}

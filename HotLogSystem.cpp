@@ -63,6 +63,11 @@ void HotLogSystem::LogPeriod() {
 		it->second->LogPeriod();
 	}
 
+	/**
+	 * 	Write Data to cache/file
+	 */
+	//	ToDo: Write Timestamp
+
 	for (std::map<std::string, HotLogChannel*>::iterator it = m_channels.begin(); it != m_channels.end(); it++) {
 		it->second->WriteDate(m_file);
 	}
