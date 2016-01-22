@@ -4,7 +4,6 @@
 
 #include "HotBot.h"
 #include "HotJoystick.h"
-#include "HotLog.h"
 #include "HotLogChannel.h"
 #include "HotPIDController.h"
 #include "HotSubsystem.h"

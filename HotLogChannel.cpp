@@ -1,25 +1,20 @@
 
 #include "HotLogChannel.h"
 
-HotLogChannel::HotLogChannel(HotLog* log, std::string key, Type type, float min, float max, float accuracy) {
+HotLogChannel::HotLogChannel(unsigned char id, std::string key, Type type, float min, float max, float accuracy) {
+	m_id = id;
 	m_key = key;
 	m_type = type;
-	m_log = log;
 	m_min = min;
 	m_max = max;
 	m_accuracy = accuracy;
 }
 
-std::string HotLogChannel::GetKey() const {
+unsigned char HotLogChannel::GetID() const {
+	return m_id;
+}
+std::string HotLogChannel::GetName() const {
 	return m_key;
-}
-
-std::string HotLogChannel::GetFullKey() const {
-	return m_log->GetFullName() + "." + GetKey();
-}
-
-void HotLogChannel::SetID(unsigned char id) {
-	m_id = id;
 }
 
 void HotLogChannel::Set(bool value) {
@@ -43,51 +38,61 @@ void HotLogChannel::Set(int value) {
 	}
 }
 
-void HotLogChannel::WriteData(std::ofstream* dataFile) {
-	if (f_updated) {
-		//	Write ID
-		dataFile->write((char*) &m_id, sizeof(unsigned char));
+std::string HotLogChannel::DeclareLine() {
+	std::ostringstream stream;
 
-		switch(m_type) {
-		case kTypeState:
-			dataFile->write((char*) &s_value, sizeof(unsigned char));
-			break;
-
-		case kTypeDouble:
-			unsigned char d_byte;
-			d_byte = (unsigned char)(255 * (d_value - m_min) / (m_max - m_min) + 0.5);
-			dataFile->write((char*) &d_byte, sizeof(unsigned char));
-			break;
-
-		case kTypeBoolean:
-			unsigned char b_byte = (b_value) ? 1 : 0;
-			dataFile->write((char*) &b_byte, sizeof(unsigned char));
-			break;
-		}
-	}
-
-	f_updated = false;
-}
-
-void HotLogChannel::WriteMeta(std::ofstream* metaFile) {
 	/**
-	 * 	Type
+	 * 	Write ID
 	 */
-	std::string s_type;
+	stream << GetID() + " ";
+
+	/**
+	 * 	Write Name
+	 */
+	stream << GetName() + " ";
+
+	/**
+	 * 	Write Type
+	 */
 	switch(m_type) {
-	case kTypeState:
-		s_type = "state";
-		break;
 	case kTypeDouble:
-		s_type = "double";
+		stream << "double " << m_min << " " << m_max << " " << m_accuracy;
 		break;
 	case kTypeBoolean:
-		s_type = "boolean";
+		stream << "boolean";
+		break;
+	case kTypeState:
+		stream << "state";
 		break;
 	}
 
 	/**
-	 * 	Write Meta
+	 * 	Line End
 	 */
-	*metaFile << std::to_string(m_id) << " " << m_key << " " << s_type << "\n";
+	stream << std::endl;
+
+	return stream.str();
+}
+
+void HotLogChannel::WriteDate(HotLogFile* file) {
+	if (!f_updated) {
+		return;
+	}
+
+	switch (m_type) {
+	case kTypeDouble:
+		unsigned char d;
+		d = (unsigned char)(255 * (d_value - m_min) / (m_max - m_min));
+		file->SetData(GetID(), (char*) &d, sizeof(unsigned char));
+		break;
+	case kTypeBoolean:
+		unsigned char b;
+		b = (b_value) ? 1 : 0;
+		file->SetData(GetID(), (char*) &b, sizeof(unsigned char));
+		break;
+	case kTypeState:
+		unsigned char s = (unsigned char) s_value;
+		file->SetData(GetID(), (char*) &s, sizeof(unsigned char));
+		break;
+	}
 }

@@ -2,9 +2,9 @@
 #define SRC_HOTJOYSTICK_H_
 
 #include "WPILib.h"
-#include "HotLog.h"
+#include "HotLogger.h"
 
-class HotJoystick: public Joystick, public HotLog {
+class HotJoystick: public Joystick, public HotLogger {
 public:
 	/******************************
 	 * 	Access Selector
@@ -42,7 +42,7 @@ public:
 	/******************************
 	 * 	Constructor
 	 ******************************/
-	HotJoystick(HotLog* bot, std::string name, unsigned int port);
+	HotJoystick(HotLogger* bot, std::string name, unsigned int port);
 
 	/******************************
 	 * 	Access with Access Selector

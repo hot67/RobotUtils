@@ -3,30 +3,17 @@
 /******************************
  * 	Constructor
  ******************************/
-HotBot::HotBot(std::string name, std::string dirPath) : HotLog(this, name) {
-	m_name = name;
-	m_timer = new Timer();
-
-	/**
-	 *	Log Files
-	 */
-	std::string path = dirPath + m_name + "-" + std::to_string((int)m_timer->GetFPGATimestamp());
-
-	m_meta->open(path + ".meta", std::ios::out);
-	m_data->open(path + ".data", std::ios::out|std::ios::binary);
-
-	/**
-	 * 	Start timer
-	 */
-	m_timer->Start();
+HotBot::HotBot(std::string dirPath) {
+	m_logSystem = new HotLogSystem(dirPath);
+	m_logger = new HotLogger(m_logSystem, "Root");
 }
 HotBot::~HotBot() {}
 
 /******************************
- * 	Get Name Infomation
+ * 	Getters
  ******************************/
-std::string HotBot::GetFullName() const {
-	return m_name;
+HotLogSystem* HotBot::GetLogSystem() const {
+	return m_logSystem;
 }
 
 /******************************
@@ -41,11 +28,11 @@ void HotBot::SetSubsystem(HotSubsystem* subsystem) {
  * 	Set Driver/Operator
  ******************************/
 void HotBot::SetDriver(unsigned int port) {
-	m_driver = new HotJoystick(this, "Driver", port);
+	m_driver = new HotJoystick(m_logger, "Driver", port);
 }
 
 void HotBot::SetOperator(unsigned int port) {
-	m_operator = new HotJoystick(this, "Operator", port);
+	m_operator = new HotJoystick(m_logger, "Operator", port);
 }
 
 /******************************
@@ -111,9 +98,6 @@ void HotBot::DisabledPeriodic() {
 		it->second->GeneralPeriod();
 	}
 
-	//	Log
-	Log();
-
 	Timeframe();
 }
 
@@ -125,9 +109,6 @@ void HotBot::AutonomousPeriodic() {
 		it->second->AutonPeriod();
 		it->second->GeneralPeriod();
 	}
-
-	//	Log
-	Log();
 
 	Timeframe();
 }
@@ -141,9 +122,6 @@ void HotBot::TeleopPeriodic() {
 		it->second->GeneralPeriod();
 	}
 
-	//	Log
-	Log();
-
 	Timeframe();
 }
 
@@ -155,9 +133,6 @@ void HotBot::TestPeriodic() {
 		it->second->TestPeriod();
 		it->second->GeneralPeriod();
 	}
-
-	//	Log
-	Log();
 
 	Timeframe();
 }
@@ -180,39 +155,15 @@ void HotBot::GeneralPeriod() {}
 /******************************
  * 	Start
  ******************************/
-void HotBot::Start() {
-	/**
-	 * 	Start Log System
-	 */
-	StartLog();
-}
 
 /******************************
  * 	Start Log System
  ******************************/
 void HotBot::StartLog() {
-	/**
-	 * 	Numbering All Channels
-	 * 		Index start with ID
-	 */
-	NumberChannels(1);
 }
 
 /******************************
  * 	Time frame
  ******************************/
 void HotBot::Timeframe() {
-	int stamp = (int)(m_timer->Get() * 1000 + 0.5);
-
-	/**
-	 * 	Write Timestamp
-	 */
-	unsigned char id = 0;
-	m_data->write((char*) &id, sizeof(char));
-	m_data->write((char*) &stamp, sizeof(int));
-
-	/**
-	 *	Write Channels
-	 */
-	WriteData(m_data);
 }

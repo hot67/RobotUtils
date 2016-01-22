@@ -4,30 +4,30 @@
 /******************************
  * 	Constructors
  ******************************/
-HotPIDController::HotPIDController(HotLog* parent, std::string name,
+HotPIDController::HotPIDController(HotLogger* parent, std::string name,
 		float p, float i, float d, PIDSource *source, PIDOutput *output, float period)
-: PIDController(p, i, d, source, output, period), HotLog(parent, name) {
+: PIDController(p, i, d, source, output, period), HotLogger(parent, name) {
 	m_source = source;
 	DefineLogSchema();
 }
 
-HotPIDController::HotPIDController(HotLog* parent, std::string name,
+HotPIDController::HotPIDController(HotLogger* parent, std::string name,
 		float p, float i, float d, float f, PIDSource *source, PIDOutput *output, float period)
-: PIDController(p, i, d, f, source, output, period), HotLog(parent, name) {
+: PIDController(p, i, d, f, source, output, period), HotLogger(parent, name) {
 	m_source = source;
 	DefineLogSchema();
 }
 
-HotPIDController::HotPIDController(HotLog* parent,
+HotPIDController::HotPIDController(HotLogger* parent,
 		float p, float i, float d, PIDSource *source, PIDOutput *output, float period)
-: PIDController(p, i, d, source, output, period), HotLog(parent, "PID") {
+: PIDController(p, i, d, source, output, period), HotLogger(parent, "PID") {
 	m_source = source;
 	DefineLogSchema();
 }
 
-HotPIDController::HotPIDController(HotLog* parent,
+HotPIDController::HotPIDController(HotLogger* parent,
 		float p, float i, float d, float f, PIDSource *source, PIDOutput *output, float period)
-: PIDController(p, i, d, f, source, output, period), HotLog(parent, "PID") {
+: PIDController(p, i, d, f, source, output, period), HotLogger(parent, "PID") {
 	m_source = source;
 	DefineLogSchema();
 }
@@ -116,14 +116,14 @@ void HotPIDController::SetD(float d) {
  * 	Log Period
  ******************************/
 void HotPIDController::LogPeriod() {
-	Log("PCoef", GetP());
-	Log("ICoef", GetI());
-	Log("DCoef", GetD());
-	Log("Input", GetInput());
-	Log("Output", GetOutput());
-	Log("Setpoint", GetSetpoint());
-	Log("Enabled", IsEnabled());
-	Log("OnTarget", OnTarget());
+	WriteLog("PCoef", GetP());
+	WriteLog("ICoef", GetI());
+	WriteLog("DCoef", GetD());
+	WriteLog("Input", GetInput());
+	WriteLog("Output", GetOutput());
+	WriteLog("Setpoint", GetSetpoint());
+	WriteLog("Enabled", IsEnabled());
+	WriteLog("OnTarget", OnTarget());
 }
 
 /******************************
@@ -133,32 +133,32 @@ void HotPIDController::DefineLogSchema() {
 	/**
 	 *	Coefficients
 	 */
-	DefineDoubleLog("PCoef", 0.0, 1.0, 0.01);
-	DefineDoubleLog("ICoef", 0.0, 1.0, 0.01);
-	DefineDoubleLog("DCoef", 0.0, 1.0, 0.01);
+	DoubleSchema("PCoef", 0.0, 1.0, 0.01);
+	DoubleSchema("ICoef", 0.0, 1.0, 0.01);
+	DoubleSchema("DCoef", 0.0, 1.0, 0.01);
 
 	/**
 	 * 	Input/Output
 	 */
-	DefineDoubleLog("Input", GetInputMin(), GetInputMax(),
+	DoubleSchema("Input", GetInputMin(), GetInputMax(),
 			(GetInputMax() - GetInputMin()) / 100);
-	DefineDoubleLog("Output", GetOutputMin(), GetOutputMax(),
+	DoubleSchema("Output", GetOutputMin(), GetOutputMax(),
 			(GetOutputMax() - GetOutputMin()) / 100);
 
 	/**
 	 * 	Set Point
 	 */
-	DefineDoubleLog("Setpoint", GetInputMin(), GetInputMax(),
+	DoubleSchema("Setpoint", GetInputMin(), GetInputMax(),
 			(GetInputMax() - GetInputMin()) / 100);
 
 
 	/**
 	 * 	Enabled
 	 */
-	DefineBoolLog("Enabled");
+	BooleanSchema("Enabled");
 
 	/**
 	 * 	On Target
 	 */
-	DefineBoolLog("OnTarget");
+	BooleanSchema("OnTarget");
 }

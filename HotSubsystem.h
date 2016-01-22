@@ -3,12 +3,12 @@
 #define SRC_HOTSUBSYSTEM_H_
 
 #include "HotBot.h"
-#include "HotLog.h"
+#include "HotLogger.h"
 #include "HotJoystick.h"
 
 class HotBot;
 
-class HotSubsystem : public HotLog {
+class HotSubsystem : public HotLogger {
 public:
 	/******************************
 	 * 	Constructor

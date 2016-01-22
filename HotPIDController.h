@@ -2,18 +2,18 @@
 #ifndef SRC_HOTPIDCONTROLLER_H_
 #define SRC_HOTPIDCONTROLLER_H_
 
-#include "HotLog.h"
+#include "HotLogger.h"
 #include <PIDController.h>
 
-class HotPIDController: public PIDController, public HotLog {
+class HotPIDController: public PIDController, public HotLogger {
 public:
-	HotPIDController(HotLog* parent, std::string name,
+	HotPIDController(HotLogger* parent, std::string name,
 			float p, float i, float d, PIDSource *source, PIDOutput *output, float period = 0.05);
-	HotPIDController(HotLog* parent, std::string name,
+	HotPIDController(HotLogger* parent, std::string name,
 			float p, float i, float d, float f, PIDSource *source, PIDOutput *output, float period = 0.05);
-	HotPIDController(HotLog* parent,
+	HotPIDController(HotLogger* parent,
 			float p, float i, float d, PIDSource *source, PIDOutput *output, float period = 0.05);
-	HotPIDController(HotLog* parent,
+	HotPIDController(HotLogger* parent,
 			float p, float i, float d, float f, PIDSource *source, PIDOutput *output, float period = 0.05);
 
 	/******************************
