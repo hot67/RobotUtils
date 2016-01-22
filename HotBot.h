@@ -79,18 +79,13 @@ public:
 	 * 	For Log System
 	 ******************************/
 	/**
-	 * 	Number all channels
-	 * 	Prepare files to save log data
-	 */
-	void StartLog();
-
-	/**
 	 * 	Timeframe
 	 * 		Define timeframe of log system
 	 * 		Save timestamp and write it in data file
 	 * 		Iterate through all channels and write their data if it is updated
 	 */
 	void Timeframe();
+
 private:
 	std::map<std::string, HotSubsystem*> m_subsystems;
 

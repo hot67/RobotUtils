@@ -17,6 +17,7 @@
 
 #include <string>
 #include <fstream>
+#include "WPILib.h"
 
 class HotLogFile {
 public:
@@ -36,6 +37,16 @@ public:
 	 * 	Cache Byte
 	 */
 	void CacheByte(unsigned char byte);
+
+	/**
+	 * 	Start
+	 */
+	void Start();
+
+	/**
+	 * 	Write On File
+	 */
+	void WriteOnFile();
 
 private:
 	unsigned char m_cache[HOTLOG_CACHE_SIZE];

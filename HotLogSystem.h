@@ -30,6 +30,12 @@ public:
 	void SetLogger(HotLogger* logger);
 
 	/**
+	 * 	Start Logging
+	 * 		after this function is called, you may not set any more channels.
+	 */
+	void Start();
+
+	/**
 	 * 	Set Channel
 	 */
 	void SetDoubleChannel(std::string name, double min, double max, double acc);

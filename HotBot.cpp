@@ -98,7 +98,10 @@ void HotBot::DisabledPeriodic() {
 		it->second->GeneralPeriod();
 	}
 
-	Timeframe();
+	/**
+	 * 	Run Log Period
+	 */
+	m_logSystem->LogPeriod();
 }
 
 void HotBot::AutonomousPeriodic() {
@@ -110,7 +113,10 @@ void HotBot::AutonomousPeriodic() {
 		it->second->GeneralPeriod();
 	}
 
-	Timeframe();
+	/**
+	 * 	Run Log Period
+	 */
+	m_logSystem->LogPeriod();
 }
 
 void HotBot::TeleopPeriodic() {
@@ -122,7 +128,10 @@ void HotBot::TeleopPeriodic() {
 		it->second->GeneralPeriod();
 	}
 
-	Timeframe();
+	/**
+	 * 	Run Log Period
+	 */
+	m_logSystem->LogPeriod();
 }
 
 void HotBot::TestPeriodic() {
@@ -134,7 +143,10 @@ void HotBot::TestPeriodic() {
 		it->second->GeneralPeriod();
 	}
 
-	Timeframe();
+	/**
+	 * 	Run Log Period
+	 */
+	m_logSystem->LogPeriod();
 }
 
 /******************************

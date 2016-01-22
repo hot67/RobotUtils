@@ -16,6 +16,13 @@ void HotLogSystem::SetLogger(HotLogger* logger) {
 }
 
 /**
+ * 	Start Logging
+ */
+void HotLogSystem::Start() {
+	m_file->Start();
+}
+
+/**
  * 	Define Log Schema
  */
 void HotLogSystem::SetDoubleChannel(std::string name, double min, double max, double acc) {
@@ -57,6 +64,6 @@ void HotLogSystem::LogPeriod() {
 	}
 
 	for (std::map<std::string, HotLogChannel*>::iterator it = m_channels.begin(); it != m_channels.end(); it++) {
-		// it->second->W
+		it->second->WriteDate(m_file);
 	}
 }

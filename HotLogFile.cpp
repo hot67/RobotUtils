@@ -15,7 +15,9 @@ HotLogFile::HotLogFile(std::string dir) {
 }
 
 void HotLogFile::SetDeclareLine(std::string line) {
-	*m_meta << line;
+	if (m_meta->is_open()) {
+		*m_meta << line;
+	}
 }
 
 void HotLogFile::SetData(unsigned char id, char* address, int size) {
@@ -29,12 +31,20 @@ void HotLogFile::CacheByte(unsigned char byte) {
 	m_cache[m_cacheIndex++] = byte;
 
 	if (m_cacheIndex == HOTLOG_CACHE_SIZE) {
-		//	Open Meta File
-		m_meta->open(m_dir + "data", std::ios::out|std::ios::binary);
-		m_data->write((char*) m_cache, HOTLOG_CACHE_SIZE);
-		m_meta->close();
+		//	Create Task
+		WriteOnFile();
 
 		//	Reset Cache Index
 		m_cacheIndex = 0;
 	}
+}
+
+void HotLogFile::Start() {
+	m_meta->close();
+}
+
+void HotLogFile::WriteOnFile() {
+	m_meta->open(m_dir + "data", std::ios::out|std::ios::binary);
+	m_meta->write((char*) m_cache, HOTLOG_CACHE_SIZE);
+	m_meta->close();
 }
