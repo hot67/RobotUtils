@@ -63,11 +63,11 @@ public:
 	 * 		These function should be overwritten
 	 * 		to define what robot should do in each period/initialization
 	 ******************************/
-	virtual void RobotInitialization();
-	virtual void DisabledInitialization();
-	virtual void AutonInitialization();
-	virtual void TeleopInitialization();
-	virtual void TestInitialization();
+	virtual void BeforeRobot();
+	virtual void BeforeDisabled();
+	virtual void BeforeAuton();
+	virtual void BeforeTeleop();
+	virtual void BeforeTest();
 
 	virtual void DisabledPeriod();
 	virtual void AutonPeriod();

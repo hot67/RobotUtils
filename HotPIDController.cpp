@@ -53,6 +53,20 @@ void HotPIDController::SetOutputRange(float outMin, float outMax) {
 }
 
 /******************************
+ * 	Enable/Disable
+ ******************************/
+void HotPIDController::Enable() {
+	if (!IsEnabled()) {
+		PIDController::Enable();
+	}
+}
+
+void HotPIDController::Disable() {
+	if (IsEnabled()) {
+		PIDController::Disable();
+	}
+}
+/******************************
  * 	Get Status
  ******************************/
 float HotPIDController::GetInputMin() const {

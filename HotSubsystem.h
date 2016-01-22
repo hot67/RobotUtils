@@ -28,11 +28,11 @@ public:
 	/******************************
 	 * 	Initialization
 	 ******************************/
-	virtual void RobotInit();
-	virtual void DisabledInit();
-	virtual void AutonInit();
-	virtual void TeleopInit();
-	virtual void TestInit();
+	virtual void BeforeRobot();
+	virtual void BeforeDisabled();
+	virtual void BeforeAuton();
+	virtual void BeforeTeleop();
+	virtual void BeforeTest();
 
 	/******************************
 	 *	Period

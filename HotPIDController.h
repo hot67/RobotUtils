@@ -31,6 +31,19 @@ public:
 	void SetContinuous(bool continuous = true);
 
 	/******************************
+	 * 	Enable/Disable
+	 ******************************/
+	/**
+	 * 	Enable PID if it is not enabled
+	 */
+	void Enable();
+
+	/**
+	 * 	Disabled PID if it is enabled
+	 */
+	void Disable();
+
+	/******************************
 	 * 	Get Status
 	 ******************************/
 	/**

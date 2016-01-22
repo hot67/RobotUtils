@@ -32,13 +32,14 @@ HotJoystick* HotSubsystem::GetOperator() const {
 }
 
 /******************************
- * 	Functions to be defined
+ * 	To be Defined
  ******************************/
-void HotSubsystem::RobotInit() {}
-void HotSubsystem::DisabledInit() {}
-void HotSubsystem::AutonInit() {}
-void HotSubsystem::TeleopInit() {}
-void HotSubsystem::TestInit() {}
+void HotSubsystem::BeforeRobot() {}
+void HotSubsystem::BeforeDisabled() {}
+void HotSubsystem::BeforeAuton() {}
+void HotSubsystem::BeforeTeleop() {}
+void HotSubsystem::BeforeTest() {}
+
 void HotSubsystem::DisabledPeriod() {}
 void HotSubsystem::AutonPeriod() {}
 void HotSubsystem::TeleopPeriod() {}

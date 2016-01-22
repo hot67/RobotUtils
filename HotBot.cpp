@@ -63,42 +63,42 @@ HotJoystick* HotBot::GetOperator() const {
  * 	Start Robot Routines
  ******************************/
 void HotBot::RobotInit() {
-	RobotInitialization();
+	BeforeRobot();
 
 	for (std::map<std::string, HotSubsystem*>::iterator it = m_subsystems.begin(); it != m_subsystems.end(); it++) {
-		it->second->RobotInit();
+		it->second->BeforeRobot();
 	}
 }
 
 void HotBot::DisabledInit() {
-	DisabledInitialization();
+	BeforeDisabled();
 
 	for (std::map<std::string, HotSubsystem*>::iterator it = m_subsystems.begin(); it != m_subsystems.end(); it++) {
-		it->second->DisabledInit();
+		it->second->BeforeDisabled();
 	}
 }
 
 void HotBot::AutonomousInit() {
-	AutonInitialization();
+	BeforeAuton();
 
 	for (std::map<std::string, HotSubsystem*>::iterator it = m_subsystems.begin(); it != m_subsystems.end(); it++) {
-		it->second->AutonInit();
+		it->second->BeforeAuton();
 	}
 }
 
 void HotBot::TeleopInit() {
-	TeleopInitialization();
+	BeforeTeleop();
 
 	for (std::map<std::string, HotSubsystem*>::iterator it = m_subsystems.begin(); it != m_subsystems.end(); it++) {
-		it->second->TeleopInit();
+		it->second->BeforeTeleop();
 	}
 }
 
 void HotBot::TestInit() {
-	TeleopInitialization();
+	BeforeTeleop();
 
 	for (std::map<std::string, HotSubsystem*>::iterator it = m_subsystems.begin(); it != m_subsystems.end(); it++) {
-		it->second->TestInit();
+		it->second->BeforeTest();
 	}
 }
 
@@ -165,11 +165,11 @@ void HotBot::TestPeriodic() {
 /******************************
  * 	To be Defined
  ******************************/
-void HotBot::RobotInitialization() {}
-void HotBot::DisabledInitialization() {}
-void HotBot::AutonInitialization() {}
-void HotBot::TeleopInitialization() {}
-void HotBot::TestInitialization() {}
+void HotBot::BeforeRobot() {}
+void HotBot::BeforeDisabled() {}
+void HotBot::BeforeAuton() {}
+void HotBot::BeforeTeleop() {}
+void HotBot::BeforeTest() {}
 
 void HotBot::DisabledPeriod() {}
 void HotBot::AutonPeriod() {}
