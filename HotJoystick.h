@@ -10,24 +10,24 @@ public:
 	 * 	Access Selector
 	 ******************************/
 	typedef enum {
-		kButtonA = 1,
-		kButtonB = 2,
-		kButtonX = 3,
-		kButtonY = 4,
-		kButtonLB = 5,
-		kButtonRB = 6,
-		kButtonBack = 7,
-		kButtonStart = 8,
-		kButtonL3 = 9,
-		kButtonR3 = 10,
+		kButtonA = 1 << 0,
+		kButtonB = 1 << 1,
+		kButtonX = 1 << 2,
+		kButtonY = 1 << 3,
+		kButtonLB = 1 << 4,
+		kButtonRB = 1 << 5,
+		kButtonBack = 1 << 6,
+		kButtonStart = 1 << 7,
+		kButtonL3 = 1 << 8,
+		kButtonR3 = 1 << 9,
 
 		/**
 		 * 	Next Two:
 		 * 		Using triggers as buttons (good for shooting)
 		 * 		These buttons are on if the triggers are pressed more than 40%
 		 */
-		kButtonLT = 11,
-		kButtonRT = 12
+		kButtonLT = 1 << 10,
+		kButtonRT = 1 << 11
 	} kButton;
 
 	typedef enum {

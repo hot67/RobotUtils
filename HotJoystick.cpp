@@ -32,34 +32,25 @@ HotJoystick::HotJoystick(HotLog* bot, std::string name, unsigned int port)
  * 	Simple Button Access
  */
 bool HotJoystick::Button(kButton btn) {
-	switch (btn) {
-	case kButtonA:
-		return GetRawButton(1);
-		break;
-	case kButtonB:
-		return GetRawButton(2);
-		break;
-	case kButtonX:
-		return GetRawButton(3);
-		break;
-	case kButtonY:
-		return GetRawButton(4);
-		break;
-	case kButtonLB:
-		return GetRawButton(5);
-		break;
-	case kButtonRB:
-		return GetRawButton(6);
-		break;
-	case kButtonLT:
-		return (GetRawAxis(2) > 0.4);
-		break;
-	case kButtonRT:
-		return (GetRawAxis(3) > 0.4);
-		break;
-	default:
+	if ((btn & kButtonA) && !GetRawButton(1)) {
+		return false;
+	} else if ((btn & kButtonB) && !GetRawButton(2)) {
+		return false;
+	} else if ((btn & kButtonX) && !GetRawButton(3)) {
+		return false;
+	} else if ((btn & kButtonY) && !GetRawButton(4)) {
+		return false;
+	} else if ((btn & kButtonLB) && !GetRawButton(5)) {
+		return false;
+	} else if ((btn & kButtonRB) && !GetRawButton(6)) {
+		return false;
+	} else if ((btn & kButtonLT) && (GetRawAxis(2) < 0.4)) {
+		return false;
+	} else if ((btn & kButtonLT) && (GetRawAxis(3) < 0.4)) {
 		return false;
 	}
+
+	return true;
 }
 
 /**
