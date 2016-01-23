@@ -20,7 +20,7 @@ public:
 	 *		3.	include all subsystems
 	 *		4.	call start log to prepare logging
 	 ******************************/
-	HotBot(std::string dirPath = "/log/");
+	HotBot(std::string dirPath = "/home/lvuser/hotlog");
 	virtual ~HotBot();
 
 	/**
@@ -38,6 +38,12 @@ public:
 	 * 	Start The System
 	 */
 	void Start();
+
+	/**
+	 * 	Get Number of Subsystems Registered
+	 */
+	int SubsystemCount();
+
 	/******************************
 	 * 	Set Joysticks
 	 ******************************/

@@ -16,6 +16,13 @@ void HotBot::Start() {
 	m_logSystem->Start();
 }
 
+/**
+ * 	Count Subsystem
+ */
+int HotBot::SubsystemCount() {
+	return m_subsystems.size();
+}
+
 /******************************
  * 	Getters
  ******************************/

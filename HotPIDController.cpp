@@ -66,6 +66,17 @@ void HotPIDController::Disable() {
 		PIDController::Disable();
 	}
 }
+
+/******************************
+ * 	Set PID set point
+ ******************************/
+void HotPIDController::SetSetpoint(float setpoint, bool enable) {
+	PIDController::SetSetpoint(setpoint);
+	if (enable) {
+		Enable();
+	}
+}
+
 /******************************
  * 	Get Status
  ******************************/

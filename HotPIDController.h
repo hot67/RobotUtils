@@ -44,6 +44,11 @@ public:
 	void Disable();
 
 	/******************************
+	 * 	Set Set Point
+	 ******************************/
+	void SetSetpoint(float setpoint, bool enable=false);
+
+	/******************************
 	 * 	Get Status
 	 ******************************/
 	/**

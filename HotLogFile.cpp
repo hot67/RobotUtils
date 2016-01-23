@@ -8,10 +8,12 @@
 #include <RobotUtils/HotLogFile.h>
 
 HotLogFile::HotLogFile(std::string dir) {
-	m_dir = dir;
+	m_dir = dir + "/" + std::to_string(Timer::GetFPGATimestamp());
 	m_meta = new std::ofstream();
 	m_data = new std::ofstream();
-	m_meta->open(dir + "meta.meta", std::ios::out);
+
+
+	m_meta->open(dir + "-meta", std::ios::out);
 }
 
 void HotLogFile::SetDeclareLine(std::string line) {
@@ -55,7 +57,7 @@ void HotLogFile::WriteOnFile() {
 		c_cache[i] = m_cache[i];
 	}
 
-	m_meta->open(m_dir + "data", std::ios::out|std::ios::binary);
+	m_meta->open(m_dir + "-data", std::ios::out|std::ios::binary);
 	m_meta->write((char*) c_cache, HOTLOG_CACHE_SIZE);
 	m_meta->close();
 }
