@@ -1,8 +1,7 @@
 
 #include "HotSubsystem.h"
 
-HotSubsystem::HotSubsystem(HotBot* bot, std::string name)
-: HotLogger(bot->GetLogSystem(), name) {
+HotSubsystem::HotSubsystem(HotBot* bot, std::string name) {
 	m_bot = bot;
 	m_name = name;
 
@@ -21,14 +20,6 @@ std::string HotSubsystem::GetName() const {
 
 HotBot* HotSubsystem::GetBot() const {
 	return m_bot;
-}
-
-HotJoystick* HotSubsystem::GetDriver() const {
-	return GetBot()->GetDriver();
-}
-
-HotJoystick* HotSubsystem::GetOperator() const {
-	return GetBot()->GetOperator();
 }
 
 /******************************

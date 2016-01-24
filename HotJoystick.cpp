@@ -1,37 +1,36 @@
 #include "HotJoystick.h"
 
-HotJoystick::HotJoystick(HotLogger* bot, std::string name, unsigned int port)
-: Joystick(port), HotLogger(bot, name)  {
-	/**
-	 * 	Define Log Schema
-	 */
-	//	For Buttons
-	BooleanSchema("ButtonA");
-	BooleanSchema("ButtonB");
-	BooleanSchema("ButtonX");
-	BooleanSchema("ButtonY");
-	BooleanSchema("ButtonLB");
-	BooleanSchema("ButtonRB");
-	BooleanSchema("ButtonBack");
-	BooleanSchema("ButtonStart");
-	BooleanSchema("ButtonL3");
-	BooleanSchema("ButtonR3");
-	BooleanSchema("ButtonLT");
-	BooleanSchema("ButtonRT");
-
-	//	For axis
-	DoubleSchema("AxisLX", 0.0, 1.0, 0.01);
-	DoubleSchema("AxisLY", 0.0, 1.0, 0.01);
-	DoubleSchema("AxisRX", 0.0, 1.0, 0.01);
-	DoubleSchema("AxisRY", 0.0, 1.0, 0.01);
-	DoubleSchema("AxisLT", 0.0, 1.0, 0.01);
-	DoubleSchema("AxisRT", 0.0, 1.0, 0.01);
+HotJoystick::HotJoystick(HotBot* bot, std::string name, unsigned int port)
+: Joystick(port) {
+	f_A = f_B = f_X = f_Y = f_LB = f_RB = f_Back = f_Start = f_L3 = f_R3 = f_LT = f_RT = false;
 }
 
 /**
  * 	Simple Button Access
  */
 bool HotJoystick::Button(kButton btn) {
+	switch (btn) {
+	case kButtonA:
+		return GetRawButton(1);
+	case kButtonB:
+		return GetRawButton(2);
+	case kButtonX:
+		return GetRawButton(3);
+	case kButtonY:
+		return GetRawButton(4);
+	case kButtonLB:
+		return GetRawButton(5);
+	case kButtonRB:
+		return GetRawButton(6);
+	case kButtonLT:
+		return GetRawAxis(2) > 0.4;
+	case kButtonRT:
+		return GetRawAxis(3) > 0.4;
+	default:
+		return false;
+	}
+}
+bool HotJoystick::Button(int btn) {
 	if ((btn & kButtonA) && !GetRawButton(1)) {
 		return false;
 	} else if ((btn & kButtonB) && !GetRawButton(2)) {
@@ -46,13 +45,112 @@ bool HotJoystick::Button(kButton btn) {
 		return false;
 	} else if ((btn & kButtonLT) && (GetRawAxis(2) < 0.4)) {
 		return false;
-	} else if ((btn & kButtonLT) && (GetRawAxis(3) < 0.4)) {
+	} else if ((btn & kButtonRT) && (GetRawAxis(3) < 0.4)) {
 		return false;
 	}
 
 	return true;
 }
 
+bool HotJoystick::ButtonPressed(kButton btn) {
+	switch (btn) {
+	case kButtonA:
+		if (Button(btn)) {
+			return (f_A) ? false : f_A = true;
+		} else {
+			return f_A = false;
+		}
+	case kButtonB:
+		if (Button(btn)) {
+			return (f_B) ? false : f_B = true;
+		} else {
+			return f_B = false;
+		}
+	case kButtonX:
+		if (Button(btn)) {
+			return (f_X) ? false : f_X = true;
+		} else {
+			return f_X = false;
+		}
+	case kButtonY:
+		if (Button(btn)) {
+			return (f_Y) ? false : f_Y = true;
+		} else {
+			return f_Y = false;
+		}
+	case kButtonLB:
+		if (Button(btn)) {
+			return (f_LB) ? false : f_LB = true;
+		} else {
+			return f_LB = false;
+		}
+	case kButtonRB:
+		if (Button(btn)) {
+			return (f_RB) ? false : f_RB = true;
+		} else {
+			return f_RB = false;
+		}
+	case kButtonBack:
+		if (Button(btn)) {
+			return (f_Back) ? false : f_Back = true;
+		} else {
+			return f_Back = false;
+		}
+	case kButtonStart:
+		if (Button(btn)) {
+			return (f_Start) ? false : f_Start = true;
+		} else {
+			return f_Start = false;
+		}
+	case kButtonL3:
+		if (Button(btn)) {
+			return (f_L3) ? false : f_L3 = true;
+		} else {
+			return f_L3 = false;
+		}
+	case kButtonR3:
+		if (Button(btn)) {
+			return (f_R3) ? false : f_R3 = true;
+		} else {
+			return f_R3 = false;
+		}
+	case kButtonLT:
+		if (Button(btn)) {
+			return (f_LT) ? false : f_LT = true;
+		} else {
+			return f_LT = false;
+		}
+	case kButtonRT:
+		if (Button(btn)) {
+			return (f_RT) ? false : f_RT = true;
+		} else {
+			return f_RT = false;
+		}
+	default:
+		return false;
+	}
+}
+bool HotJoystick::ButtonPressed(int btn) {
+	if ((btn & kButtonA) && !ButtonPressed(kButtonA)) {
+		return false;
+	} else if ((btn & kButtonB) && !ButtonPressed(kButtonB)) {
+		return false;
+	} else if ((btn & kButtonX) && !ButtonPressed(kButtonX)) {
+		return false;
+	} else if ((btn & kButtonY) && !ButtonPressed(kButtonY)) {
+		return false;
+	} else if ((btn & kButtonLB) && !ButtonPressed(kButtonLB)) {
+		return false;
+	} else if ((btn & kButtonRB) && !ButtonPressed(kButtonRB)) {
+		return false;
+	} else if ((btn & kButtonLT) && !ButtonPressed(kButtonLT)) {
+		return false;
+	} else if ((btn & kButtonRT) && !ButtonPressed(kButtonRT)) {
+		return false;
+	}
+
+	return true;
+}
 /**
  * 	Simple Axis Access
  */
@@ -79,40 +177,4 @@ float HotJoystick::Axis(kAxis axis) {
 	default:
 		return 0.0;
 	}
-}
-
-void HotJoystick::GeneralPeriod() {
-	f_status.A = ButtonA();
-	f_status.B = ButtonB();
-	f_status.X = ButtonX();
-	f_status.Y = ButtonY();
-	f_status.LB = ButtonLB();
-	f_status.RB = ButtonRB();
-	f_status.Back = ButtonBack();
-	f_status.Start = ButtonStart();
-	f_status.L3 = ButtonL3();
-	f_status.R3 = ButtonR3();
-}
-
-void HotJoystick::LogPeriod() {
-	WriteLog("ButtonA", ButtonA());
-	WriteLog("ButtonB", ButtonB());
-	WriteLog("ButtonX", ButtonX());
-	WriteLog("ButtonY", ButtonY());
-	WriteLog("ButtonLB", ButtonLB());
-	WriteLog("ButtonRB", ButtonRB());
-	WriteLog("ButtonBack", ButtonBack());
-	WriteLog("ButtonStart", ButtonStart());
-	WriteLog("ButtonL3", ButtonL3());
-	WriteLog("ButtonR3", ButtonR3());
-	WriteLog("ButtonLT", ButtonLT());
-	WriteLog("ButtonRT", ButtonRT());
-
-	//	For axis
-	WriteLog("AxisLX", AxisLX());
-	WriteLog("AxisLY", AxisLY());
-	WriteLog("AxisRX", AxisRX());
-	WriteLog("AxisRY", AxisRY());
-	WriteLog("AxisLT", AxisLT());
-	WriteLog("AxisRT", AxisRT());
 }

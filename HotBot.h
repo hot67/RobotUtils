@@ -3,7 +3,6 @@
 
 #include "WPILib.h"
 #include "HotSubsystem.h"
-#include "HotJoystick.h"
 
 class HotSubsystem;
 
@@ -30,11 +29,6 @@ public:
 	void SetSubsystem(HotSubsystem* subsystem);
 
 	/**
-	 *	Getters
-	 */
-	HotLogSystem* GetLogSystem() const;
-
-	/**
 	 * 	Start The System
 	 */
 	void Start();
@@ -43,15 +37,6 @@ public:
 	 * 	Get Number of Subsystems Registered
 	 */
 	int SubsystemCount();
-
-	/******************************
-	 * 	Set Joysticks
-	 ******************************/
-	void SetDriver(unsigned int port);
-	void SetOperator(unsigned int port);
-
-	HotJoystick* GetDriver() const;
-	HotJoystick* GetOperator() const;
 
 	/******************************
 	 * 	Loop Structure
@@ -87,12 +72,6 @@ public:
 
 private:
 	std::map<std::string, HotSubsystem*> m_subsystems;
-
-	HotLogSystem* m_logSystem;
-
-	HotLogger* m_logger;
-
-	HotJoystick *m_driver, *m_operator;
 };
 
 #endif /* SRC_HOTBOT_H_ */

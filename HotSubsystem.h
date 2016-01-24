@@ -3,12 +3,11 @@
 #define SRC_HOTSUBSYSTEM_H_
 
 #include "HotBot.h"
-#include "HotLogger.h"
 #include "HotJoystick.h"
 
 class HotBot;
 
-class HotSubsystem : public HotLogger {
+class HotSubsystem {
 public:
 	/******************************
 	 * 	Constructor
@@ -22,8 +21,6 @@ public:
 	 ******************************/
 	std::string GetName() const;
 	HotBot* GetBot() const;
-	HotJoystick* GetDriver() const;
-	HotJoystick* GetOperator() const;
 
 	/******************************
 	 * 	Initialization

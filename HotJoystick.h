@@ -2,9 +2,11 @@
 #define SRC_HOTJOYSTICK_H_
 
 #include "WPILib.h"
-#include "HotLogger.h"
+#include "HotBot.h"
 
-class HotJoystick: public Joystick, public HotLogger {
+class HotBot;
+
+class HotJoystick: public Joystick {
 public:
 	/******************************
 	 * 	Access Selector
@@ -42,7 +44,7 @@ public:
 	/******************************
 	 * 	Constructor
 	 ******************************/
-	HotJoystick(HotLogger* bot, std::string name, unsigned int port);
+	HotJoystick(HotBot* bot, std::string name, unsigned int port);
 
 	/******************************
 	 * 	Access with Access Selector
@@ -51,6 +53,11 @@ public:
 	 * 	Simply Access Button with Access Selector
 	 */
 	bool Button(kButton btn);
+
+	/**
+	 * 	Combined Button Access
+	 */
+	bool Button(int btns);
 
 	/**
 	 * 	Simply Access Axis With Access Selector
@@ -64,6 +71,11 @@ public:
 	 * 		Whole the button is pressed, this function returns false
 	 */
 	bool ButtonPressed(kButton btn);
+
+	/**
+	 * 	Combined Button Pressed
+	 */
+	bool ButtonPressed(int btns);
 
 	/******************************
 	 * 	Access Individual
@@ -88,6 +100,17 @@ public:
 	 * 	Button Pressed
 	 */
 	bool ButtonPressedA() { return ButtonPressed(kButtonA); }
+	bool ButtonPressedB() { return ButtonPressed(kButtonB); }
+	bool ButtonPressedX() { return ButtonPressed(kButtonX); }
+	bool ButtonPressedY() { return ButtonPressed(kButtonY); }
+	bool ButtonPressedLB() { return ButtonPressed(kButtonLB); }
+	bool ButtonPressedRB() { return ButtonPressed(kButtonRB); }
+	bool ButtonPressedStart() { return ButtonPressed(kButtonStart); }
+	bool ButtonPressedBack() { return ButtonPressed(kButtonBack); }
+	bool ButtonPressedL3() { return ButtonPressed(kButtonL3); }
+	bool ButtonPressedR3() { return ButtonPressed(kButtonR3); }
+	bool ButtonPressedLT() { return ButtonPressed(kButtonLT); }
+	bool ButtonPressedRT() { return ButtonPressed(kButtonRT); }
 
 	/**
 	 * 	Axis
@@ -98,31 +121,9 @@ public:
 	float AxisRY() { return Axis(kAxisRY); }
 	float AxisLT() { return Axis(kAxisLT); }
 	float AxisRT() { return Axis(kAxisRT); }
-
-	/******************************
-	 * 	Period
-	 ******************************/
-	void GeneralPeriod();
-	void LogPeriod();
-
 private:
-	struct ButtonStatus {
-		ButtonStatus () {
-			A = false;
-			B = false;
-			X = false;
-			Y = false;
-			LB = false;
-			RB = false;
-			Back = false;
-			Start = false;
-			L3 = false;
-			R3 = false;
-		}
-		bool A, B, X, Y, LB, RB, Back, Start, L3, R3;
-	};
 
-	ButtonStatus f_status;
+	bool f_A, f_B, f_X, f_Y, f_LB, f_RB, f_Back, f_Start, f_L3, f_R3, f_LT, f_RT;
 };
 
 #endif /* SRC_HOTJOYSTICK_H_ */

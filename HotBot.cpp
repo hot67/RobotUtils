@@ -4,16 +4,13 @@
  * 	Constructor
  ******************************/
 HotBot::HotBot(std::string dirPath) {
-	m_logSystem = new HotLogSystem(dirPath);
-	m_logger = new HotLogger(m_logSystem, "Root");
 }
 HotBot::~HotBot() {}
 
 /**
  * 	Start
  */
-void HotBot::Start() {
-	m_logSystem->Start();
+void HotBot::Start(){
 }
 
 /**
@@ -23,12 +20,6 @@ int HotBot::SubsystemCount() {
 	return m_subsystems.size();
 }
 
-/******************************
- * 	Getters
- ******************************/
-HotLogSystem* HotBot::GetLogSystem() const {
-	return m_logSystem;
-}
 
 /******************************
  * 	Set subsystem
@@ -36,28 +27,6 @@ HotLogSystem* HotBot::GetLogSystem() const {
  ******************************/
 void HotBot::SetSubsystem(HotSubsystem* subsystem) {
 	m_subsystems[subsystem->GetName()] = subsystem;
-}
-
-/******************************
- * 	Set Driver/Operator
- ******************************/
-void HotBot::SetDriver(unsigned int port) {
-	m_driver = new HotJoystick(m_logger, "Driver", port);
-}
-
-void HotBot::SetOperator(unsigned int port) {
-	m_operator = new HotJoystick(m_logger, "Operator", port);
-}
-
-/******************************
- * 	Getter for Joysticks
- ******************************/
-HotJoystick* HotBot::GetDriver() const {
-	return m_driver;
-}
-
-HotJoystick* HotBot::GetOperator() const {
-	return m_operator;
 }
 
 /******************************
@@ -111,11 +80,6 @@ void HotBot::DisabledPeriodic() {
 		it->second->DisabledPeriod();
 		it->second->GeneralPeriod();
 	}
-
-	/**
-	 * 	Run Log Period
-	 */
-	m_logSystem->LogPeriod();
 }
 
 void HotBot::AutonomousPeriodic() {
@@ -126,11 +90,6 @@ void HotBot::AutonomousPeriodic() {
 		it->second->AutonPeriod();
 		it->second->GeneralPeriod();
 	}
-
-	/**
-	 * 	Run Log Period
-	 */
-	m_logSystem->LogPeriod();
 }
 
 void HotBot::TeleopPeriodic() {
@@ -141,11 +100,6 @@ void HotBot::TeleopPeriodic() {
 		it->second->TeleopPeriod();
 		it->second->GeneralPeriod();
 	}
-
-	/**
-	 * 	Run Log Period
-	 */
-	m_logSystem->LogPeriod();
 }
 
 void HotBot::TestPeriodic() {
@@ -156,11 +110,6 @@ void HotBot::TestPeriodic() {
 		it->second->TestPeriod();
 		it->second->GeneralPeriod();
 	}
-
-	/**
-	 * 	Run Log Period
-	 */
-	m_logSystem->LogPeriod();
 }
 
 /******************************
@@ -177,8 +126,4 @@ void HotBot::AutonPeriod() {}
 void HotBot::TeleopPeriod() {}
 void HotBot::TestPeriod() {}
 void HotBot::GeneralPeriod() {}
-
-/******************************
- * 	Start
- ******************************/
 
