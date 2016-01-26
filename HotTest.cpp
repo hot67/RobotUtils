@@ -50,6 +50,9 @@ void HotTest::Assign(std::string name, int value, int expect) {
 void HotTest::Assign(std::string name, double value, double expect, double acc) {
 	Result(name, (fabs(value-expect) <= acc) ? kGRN : kRED);
 }
+void HotTest::Assign(std::string name, std::string value, std::string expect) {
+	Result(name, (value.compare(expect) == 0) ? kGRN : kRED);
+}
 
 /**
  * 	Inverse Assign

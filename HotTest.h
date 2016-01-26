@@ -56,6 +56,7 @@ public:
 	void Assign(std::string name, bool value, bool expect);
 	void Assign(std::string name, int value, int expect);
 	void Assign(std::string name, double value, double expect, double acc = 0.0);
+	void Assign(std::string name, std::string value, std::string expect);
 
 	/**
 	 * 	Inverse Assign
