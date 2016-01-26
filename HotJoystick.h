@@ -33,18 +33,32 @@ public:
 	} kButton;
 
 	typedef enum {
-		kAxisLX = 1,
-		kAxisLY = 2,
-		kAxisLT = 3,	//	Left Trigger
-		kAxisRT = 4,	//	Right Trigger
-		kAxisRX = 5,
-		kAxisRY = 6
+		kAxisLX = 1 << 0,
+		kAxisLY = 1 << 1,
+		kAxisLT = 1 << 2,	//	Left Trigger
+		kAxisRT = 1 << 3,	//	Right Trigger
+		kAxisRX = 1 << 4,
+		kAxisRY = 1 << 5,
+		kAxisALL = 0xFF
 	} kAxis;
 
 	/******************************
 	 * 	Constructor
 	 ******************************/
 	HotJoystick(HotBot* bot, std::string name, unsigned int port);
+
+	/******************************
+	 * 	HotJoystick
+	 ******************************/
+	/**
+	 * 	Set Deadband
+	 */
+	void SetDeadband(int channels, float value);
+
+	/**
+	 * 	Get Deadband
+	 */
+	float GetDeadband(kAxis axis);
 
 	/******************************
 	 * 	Access with Access Selector
@@ -124,6 +138,7 @@ public:
 private:
 
 	bool f_A, f_B, f_X, f_Y, f_LB, f_RB, f_Back, f_Start, f_L3, f_R3, f_LT, f_RT;
+	float db_LX, db_LY, db_LT, db_RT, db_RX, db_RY;
 };
 
 #endif /* SRC_HOTJOYSTICK_H_ */
