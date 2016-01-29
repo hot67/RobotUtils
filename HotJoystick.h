@@ -45,7 +45,7 @@ public:
 	/******************************
 	 * 	Constructor
 	 ******************************/
-	HotJoystick(HotBot* bot, std::string name, unsigned int port);
+	HotJoystick(unsigned int port);
 
 	/******************************
 	 * 	HotJoystick

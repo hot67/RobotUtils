@@ -1,6 +1,6 @@
 #include "HotJoystick.h"
 
-HotJoystick::HotJoystick(HotBot* bot, std::string name, unsigned int port)
+HotJoystick::HotJoystick(unsigned int port)
 : Joystick(port) {
 	f_A = f_B = f_X = f_Y = f_LB = f_RB = f_Back = f_Start = f_L3 = f_R3 = f_LT = f_RT = false;
 	db_LX = db_LY = db_LT = db_RT = db_RX = db_RY = 0.0;
