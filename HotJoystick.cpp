@@ -1,8 +1,52 @@
 #include "HotJoystick.h"
 
-HotJoystick::HotJoystick(HotBot* bot, std::string name, unsigned int port)
+HotJoystick::HotJoystick(unsigned int port)
 : Joystick(port) {
 	f_A = f_B = f_X = f_Y = f_LB = f_RB = f_Back = f_Start = f_L3 = f_R3 = f_LT = f_RT = false;
+	db_LX = db_LY = db_LT = db_RT = db_RX = db_RY = 0.0;
+}
+
+/**
+ * 	Configuration
+ */
+void HotJoystick::SetDeadband(int channels, float value) {
+	if (channels & kAxisLX) {
+		db_LX = value;
+	}
+	if (channels & kAxisLY) {
+		db_LY = value;
+	}
+	if (channels & kAxisLT) {
+		db_LT = value;
+	}
+	if (channels & kAxisRT) {
+		db_LX = value;
+	}
+	if (channels & kAxisRX) {
+		db_RX = value;
+	}
+	if (channels & kAxisRY) {
+		db_RY = value;
+	}
+}
+
+float HotJoystick::GetDeadband(kAxis axis) {
+	switch(axis) {
+	case kAxisLX:
+		return db_LX;
+	case kAxisLY:
+		return db_LY;
+	case kAxisLT:
+		return db_LT;
+	case kAxisRT:
+		return db_RT;
+	case kAxisRX:
+		return db_RX;
+	case kAxisRY:
+		return db_RY;
+	default:
+		return 0.0;
+	}
 }
 
 /**
