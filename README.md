@@ -12,10 +12,6 @@ This library is unfinished as of yet. This list will be updated as new functiona
 * HotSubsystem
   * Base class of subsystem of robot
   * Contain periodic/init functions such as `InitRobot`, `TeleopPeriod`
-* HotLog
-  * This is a class that handles logging
-  * As long as you set what values to save in constructor of each subsystems, you most likely don't need to care about this feature.  Everything is handled automatically.
-  * Details are describe in below in section "HotLog"
 * HotJoystick
   * Wrapper class of Joystick
   * Specialized for xbox controller
@@ -29,43 +25,45 @@ This library is unfinished as of yet. This list will be updated as new functiona
 ## Details
 ### HotBot
 
-Base class that extends IterativeRobot.
+Base class that extends `IterativeRobot`.
 Main robot class should inherit this class
+This is also replacement of `HotSubsystemHandler`.
+To register a subsystem, you can just initialize the subsystem with parameter `HotBot*`.
 
-`HotBot : public IterativeRobot, public HotLog`
+Also, to handle all routines, routine functions are renamed.
+- `RobotInit` -> `BeforeRobot`
+- `DisabledInit` -> `BeforeDisabled`
+- `AutonomousInit` -> `BeforeAuton`
+- `TeleopInit` -> `BeforeTeleop`
+- `TestInit` -> `BeforeTest`
+- `DisabledPeriodic` -> `DisabledPeriod`
+- `AutonomousPeriodic` -> `AutonPeriod`
+- `TeleopPeriodic` -> `TeleopPeriod`
+- `TestPeriodic` -> `TestPeriod`
+
+To handle more general routines, new function called `GeneralPeriod` is added.  This function runs in every mode.
 
 ### HotSubsystem
 
 Base class for subsystem.
 As soon as this class is instantiated, this subsystem is set as subsystem of parent HotBot class.
-With no configuration, all periodic / initializaction functions, including `RobotInit`, `TeleopInit`, `AutonPeriod`, etc... should run when it should run.
 
-`HotSubsystem : public HotLog`
-
-### HotLog
-
-Abstruct class that has any data to be logged.
-`HotBot`, `HotSubsystem`, `HotJoystick`, `HotPIDController` inherits this class.
-If you define new class that have logging data, you should inherit this class.
-
-`HotLog`
+`HotSubsystem` has routine functions that are name the same way with `HotBot`.
+These function works same way with the `HotBot`.  (the order that each subsystem is called is not specified)
+They are for background computation (checking the status of the subsystem, etc...)
 
 ### HotJoystick
 
 Wrapper of Joystick specified for xbox controller.
-This class extends functionality of Joystick including, easy access to each button and axis, simple button pressed function.
-All control are logged.
-
-`HotJoystick : public Joystick, public HotLog`
+This class extends `Joystick` of WPILib.
+In addition to normation `Joystick` functionalities, we have:
+- `void SetDeadband(float)`
+- `bool Button**()` where ** is name of button.
+- `bool ButtonPressed**()` where ** is name of button
+- `float Axis**()` where ** is name of axis
 
 ### HotPIDController
 
 Wrapper of PIDController.
-Easy access to PID coefficients.
-Log input and output value of PID, coefficients, setpoints, etc...
+Easy access to PID coefficients, dynamic PID Control.
 
-`HotPIDController : public Joystick, public PIDController`
-
-## How to use
-
-## Changes
