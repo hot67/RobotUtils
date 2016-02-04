@@ -55,17 +55,21 @@ float HotJoystick::GetDeadband(kAxis axis) {
 bool HotJoystick::Button(kButton btn) {
 	switch (btn) {
 	case kButtonA:
-		return GetRawButton(1);
+		return GetRawButton(0);
 	case kButtonB:
-		return GetRawButton(2);
+		return GetRawButton(1);
 	case kButtonX:
-		return GetRawButton(3);
+		return GetRawButton(2);
 	case kButtonY:
-		return GetRawButton(4);
+		return GetRawButton(3);
 	case kButtonLB:
-		return GetRawButton(5);
+		return GetRawButton(4);
 	case kButtonRB:
+		return GetRawButton(5);
+	case kButtonStart:
 		return GetRawButton(6);
+	case kButtonBack:
+		return GetRawButton(7);
 	case kButtonLT:
 		return GetRawAxis(2) > 0.4;
 	case kButtonRT:
@@ -74,22 +78,24 @@ bool HotJoystick::Button(kButton btn) {
 		return false;
 	}
 }
+
+
 bool HotJoystick::Button(int btn) {
-	if ((btn & kButtonA) && !GetRawButton(1)) {
+	if ((btn & kButtonA) && !Button(kButtonA)) {
 		return false;
-	} else if ((btn & kButtonB) && !GetRawButton(2)) {
+	} else if ((btn & kButtonB) && !Button(kButtonB)) {
 		return false;
-	} else if ((btn & kButtonX) && !GetRawButton(3)) {
+	} else if ((btn & kButtonX) && !Button(kButtonX)) {
 		return false;
-	} else if ((btn & kButtonY) && !GetRawButton(4)) {
+	} else if ((btn & kButtonY) && !Button(kButtonY)) {
 		return false;
-	} else if ((btn & kButtonLB) && !GetRawButton(5)) {
+	} else if ((btn & kButtonLB) && !Button(kButtonLB)) {
 		return false;
-	} else if ((btn & kButtonRB) && !GetRawButton(6)) {
+	} else if ((btn & kButtonRB) && !Button(kButtonRB)) {
 		return false;
-	} else if ((btn & kButtonLT) && (GetRawAxis(2) < 0.4)) {
+	} else if ((btn & kButtonLT) && !Button(kButtonLT)) {
 		return false;
-	} else if ((btn & kButtonRT) && (GetRawAxis(3) < 0.4)) {
+	} else if ((btn & kButtonRT) && !Button(kButtonRT)) {
 		return false;
 	}
 
@@ -201,22 +207,22 @@ bool HotJoystick::ButtonPressed(int btn) {
 float HotJoystick::Axis(kAxis axis) {
 	switch(axis) {
 	case kAxisLX:
-		return GetRawAxis(1);
+		return GetRawAxis(0);
 		break;
 	case kAxisLY:
-		return GetRawAxis(2);
+		return GetRawAxis(1);
 		break;
 	case kAxisLT:
-		return GetRawAxis(3);
+		return GetRawAxis(2);
 		break;
 	case kAxisRT:
-		return GetRawAxis(4);
+		return GetRawAxis(3);
 		break;
 	case kAxisRX:
-		return GetRawAxis(5);
+		return GetRawAxis(4);
 		break;
 	case kAxisRY:
-		return GetRawAxis(6);
+		return GetRawAxis(5);
 		break;
 	default:
 		return 0.0;
