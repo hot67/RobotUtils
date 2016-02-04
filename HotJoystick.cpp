@@ -207,22 +207,22 @@ bool HotJoystick::ButtonPressed(int btn) {
 float HotJoystick::Axis(kAxis axis) {
 	switch(axis) {
 	case kAxisLX:
-		return GetRawAxis(0);
+		return (GetRawAxis(0) > db_LX) ? GetRawAxis(0) : 0.0;
 		break;
 	case kAxisLY:
-		return GetRawAxis(1);
+		return (GetRawAxis(1) > db_LY) ? GetRawAxis(1) : 0.0;
 		break;
 	case kAxisLT:
-		return GetRawAxis(2);
+		return (GetRawAxis(2) > db_LX) ? GetRawAxis(2) : 0.0;
 		break;
 	case kAxisRT:
-		return GetRawAxis(3);
+		return (GetRawAxis(3) > db_LX) ? GetRawAxis(3) : 0.0;
 		break;
 	case kAxisRX:
-		return GetRawAxis(4);
+		return (GetRawAxis(4) > db_LX) ? GetRawAxis(4) : 0.0;
 		break;
 	case kAxisRY:
-		return GetRawAxis(5);
+		return (GetRawAxis(5) > db_LX) ? GetRawAxis(5) : 0.0;
 		break;
 	default:
 		return 0.0;
